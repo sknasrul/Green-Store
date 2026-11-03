@@ -12,8 +12,9 @@
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 body{font:16px/1.5 Roboto,system-ui,sans-serif;background:var(--bg);color:var(--fg)}
 button{font:inherit;color:inherit}
-main{min-height:100dvh;padding:var(--hh) 0 var(--nh)}
-header,nav{position:fixed;left:0;right:0;z-index:5;transition:transform .35s var(--ease),background-color .25s}
+.pane{position:fixed;inset:0;overflow-y:auto;overscroll-behavior:contain;padding:var(--hh) 0 var(--nh);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s var(--ease),visibility .25s}
+.pane.on{opacity:1;visibility:visible;pointer-events:auto}
+header,nav{position:fixed;left:0;right:0;z-index:5;will-change:transform;transition:transform .35s var(--ease),background-color .25s}
 header{top:0;padding-top:env(safe-area-inset-top);background:var(--bg)}
 header.lift{background:var(--sf)}
 header.s{background:var(--bg)}
@@ -40,13 +41,11 @@ header img{width:40px;height:40px;object-fit:contain}
 .pill svg{position:relative;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
 .tab.on .f{fill:currentColor}
 .r{position:absolute;border-radius:50%;background:currentColor;opacity:.2;transform:scale(0);animation:rp .6s ease-out forwards;pointer-events:none}
-.pg{animation:pi .35s var(--ease)}
 .ld{width:40px;height:40px;margin:30vh auto 0;border:4px solid var(--p);border-right-color:transparent;border-radius:50%;animation:sp .8s linear infinite}
 .er{margin:30vh 16px 0;text-align:center;color:var(--mut)}
 .er button{margin-top:12px;height:40px;padding:0 24px;border:0;border-radius:20px;background:var(--p);color:var(--on-p);font-weight:500;cursor:pointer}
 @keyframes rp{to{transform:scale(1);opacity:0}}
 @keyframes sp{to{transform:rotate(360deg)}}
-@keyframes pi{from{opacity:0;transform:translateX(var(--dx))}}
 @view-transition{navigation:auto}
 ::view-transition-old(root){animation:.3s cubic-bezier(.3,0,.8,.15) both out}
 ::view-transition-new(root){animation:.4s var(--ease) both in}
@@ -69,14 +68,14 @@ header img{width:40px;height:40px;object-fit:contain}
 </header>
 <main>
   <section class="pane" data-src="home.html"></section>
-  <section class="pane" data-src="orders.html" hidden></section>
+  <section class="pane" data-src="orders.html"></section>
 </main>
 <nav aria-label="Primary">
   <button class="tab"><span class="pill"><svg viewBox="0 0 24 24"><path class="f" d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></span>Home</button>
   <button class="tab"><span class="pill"><svg viewBox="0 0 24 24"><path class="f" d="M5 8h14l-1 12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1z"/><path d="M9 8V7a3 3 0 0 1 6 0v1"/></svg></span>Orders</button>
 </nav>
 <script>
-const $=s=>document.querySelector(s),hd=$('header'),nv=$('nav'),q=$('#q'),tabs=[...document.querySelectorAll('.tab')],panes=[...document.querySelectorAll('.pane')],pos=[0,0];
+const $=s=>document.querySelector(s),hd=$('header'),nv=$('nav'),q=$('#q'),tabs=[...document.querySelectorAll('.tab')],panes=[...document.querySelectorAll('.pane')],idle=window.requestIdleCallback||setTimeout;
 let cur=-1,y0=0;
 
 document.addEventListener('pointerdown',e=>{
@@ -87,11 +86,12 @@ document.addEventListener('pointerdown',e=>{
 },{passive:true});
 
 const bars=on=>{if(!hd.classList.contains('s'))hd.classList.toggle('hide',!on);nv.classList.toggle('hide',!on)};
-addEventListener('scroll',()=>{
-  const y=Math.max(scrollY,0),d=y-y0;
+addEventListener('scroll',e=>{
+  const p=e.target;if(p!==panes[cur])return;
+  const y=p.scrollTop,d=y-y0;
   hd.classList.toggle('lift',y>0);
   if(Math.abs(d)>8||y<1){bars(d<0||y<64);y0=y}
-},{passive:true});
+},{capture:true,passive:true});
 
 async function load(p){
   p.dataset.s=1;p.innerHTML='<div class="ld"></div>';
@@ -107,19 +107,18 @@ async function load(p){
 }
 
 function go(i){
-  if(i===cur){scrollTo({top:0,behavior:'smooth'});return bars(true)}
-  if(cur>=0)pos[cur]=scrollY;
   const p=panes[i];
+  if(i===cur){p.scrollTo({top:0,behavior:'smooth'});return bars(true)}
+  cur=i;
   tabs.forEach((t,k)=>{t.classList.toggle('on',k===i);t.ariaCurrent=k===i?'page':'false'});
-  panes.forEach((x,k)=>x.hidden=k!==i);
-  p.style.setProperty('--dx',(i>cur?32:-32)+'px');
-  p.classList.remove('pg');void p.offsetWidth;p.classList.add('pg');
+  panes.forEach((x,k)=>x.classList.toggle('on',k===i));
   if(!p.dataset.s)load(p);
   document.title=tabs[i].textContent;
-  bars(true);scrollTo(0,pos[i]);y0=pos[i];cur=i;
+  y0=p.scrollTop;hd.classList.toggle('lift',y0>0);bars(true);
 }
 tabs.forEach((t,i)=>t.onclick=()=>go(i));
 go(0);
+idle(()=>panes.forEach(p=>p.dataset.s||load(p)));
 
 const emit=()=>document.dispatchEvent(new CustomEvent('search',{detail:q.value.trim()})),
 ss=on=>{hd.classList.toggle('s',on);if(on)q.focus();else{q.value='';q.blur();emit()}};
