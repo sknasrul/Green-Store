@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fdfbff" media="(prefers-color-scheme:light)">
+<meta name="theme-color" content="#1a1c1e" media="(prefers-color-scheme:dark)">
+<title>Home</title>
+<style>
+:root{color-scheme:light dark;--p:#0b57d0;--on-p:#fff;--bg:#fdfbff;--fg:#1a1c1e;--sf:#e9eef6;--sc:#c2e7ff;--on-sc:#001d35;--mut:#44474e;--ease:cubic-bezier(.2,0,0,1);--hh:calc(64px + env(safe-area-inset-top));--nh:calc(80px + env(safe-area-inset-bottom))}
+@media(prefers-color-scheme:dark){:root{--p:#a8c7fa;--on-p:#062e6f;--bg:#1a1c1e;--fg:#e2e2e6;--sf:#2b2f33;--sc:#004a77;--on-sc:#c2e7ff;--mut:#c4c6d0}}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{font:16px/1.5 Roboto,system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+button{font:inherit;color:inherit}
+main{min-height:100dvh;padding:var(--hh) 0 var(--nh)}
+header,nav{position:fixed;left:0;right:0;z-index:5;transition:transform .35s var(--ease),background-color .25s}
+header{top:0;padding-top:env(safe-area-inset-top);background:var(--bg)}
+header.lift{background:var(--sf)}
+header.s{background:var(--bg)}
+header.hide{transform:translateY(-100%)}
+nav{bottom:0;height:var(--nh);padding-bottom:env(safe-area-inset-bottom);display:flex;background:var(--sf)}
+nav.hide{transform:translateY(100%)}
+.bar{height:64px;display:flex;align-items:center;padding:0 4px 0 16px;transition:opacity .2s,transform .35s var(--ease),visibility .2s}
+header img{width:40px;height:40px;object-fit:contain}
+#so{margin-left:auto}
+#b2{position:absolute;left:12px;right:12px;bottom:4px;height:56px;padding:0 4px;border-radius:28px;background:var(--sf);opacity:0;visibility:hidden;transform:translateY(8px)}
+.s #b1{opacity:0;visibility:hidden}
+.s #b2{opacity:1;visibility:visible;transform:none}
+#q{flex:1;min-width:0;height:100%;padding:0 8px;border:0;background:none;color:inherit;font:inherit;outline:0}
+#q::placeholder{color:var(--mut)}
+#q::-webkit-search-cancel-button{display:none}
+#b2:has(#q:placeholder-shown) #sc{visibility:hidden}
+.ib{position:relative;overflow:hidden;display:grid;place-items:center;width:48px;height:48px;border:0;border-radius:50%;background:none;color:var(--mut);cursor:pointer}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding-top:12px;border:0;background:none;color:var(--mut);font:500 12px/16px Roboto,system-ui,sans-serif;cursor:pointer}
+.tab.on{color:var(--fg)}
+.pill{position:relative;overflow:hidden;display:grid;place-items:center;width:64px;height:32px;border-radius:16px}
+.pill::before{content:"";position:absolute;inset:0;background:var(--sc);opacity:0;transform:scaleX(.3);transition:transform .35s var(--ease),opacity .2s}
+.tab.on .pill{color:var(--on-sc)}
+.tab.on .pill::before{opacity:1;transform:none}
+.pill svg{position:relative;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.tab.on .f{fill:currentColor}
+.r{position:absolute;border-radius:50%;background:currentColor;opacity:.2;transform:scale(0);animation:rp .6s ease-out forwards;pointer-events:none}
+.pg{animation:pi .35s var(--ease)}
+.ld{width:40px;height:40px;margin:30vh auto 0;border:4px solid var(--p);border-right-color:transparent;border-radius:50%;animation:sp .8s linear infinite}
+.er{margin:30vh 16px 0;text-align:center;color:var(--mut)}
+.er button{margin-top:12px;height:40px;padding:0 24px;border:0;border-radius:20px;background:var(--p);color:var(--on-p);font-weight:500;cursor:pointer}
+@keyframes rp{to{transform:scale(1);opacity:0}}
+@keyframes sp{to{transform:rotate(360deg)}}
+@keyframes pi{from{opacity:0;transform:translateX(var(--dx))}}
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:.3s cubic-bezier(.3,0,.8,.15) both out}
+::view-transition-new(root){animation:.4s var(--ease) both in}
+@keyframes out{to{transform:translateX(-25%);opacity:0}}
+@keyframes in{from{transform:translateX(100%)}}
+@media(prefers-reduced-motion:reduce){*,::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar" id="b1">
+    <img src="icon.png" alt="Logo" width="40" height="40" fetchpriority="high">
+    <button class="ib" id="so" aria-label="Search"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button>
+  </div>
+  <div class="bar" id="b2">
+    <button class="ib" id="sx" aria-label="Back"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20z"/></svg></button>
+    <input id="q" type="search" placeholder="Search" aria-label="Search" enterkeyhint="search" autocomplete="off">
+    <button class="ib" id="sc" aria-label="Clear"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+  </div>
+</header>
+<main>
+  <section class="pane" data-src="home.html"></section>
+  <section class="pane" data-src="orders.html" hidden></section>
+</main>
+<nav aria-label="Primary">
+  <button class="tab"><span class="pill"><svg viewBox="0 0 24 24"><path class="f" d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></span>Home</button>
+  <button class="tab"><span class="pill"><svg viewBox="0 0 24 24"><path class="f" d="M5 8h14l-1 12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1z"/><path d="M9 8V7a3 3 0 0 1 6 0v1"/></svg></span>Orders</button>
+</nav>
+<script>
+const $=s=>document.querySelector(s),hd=$('header'),nv=$('nav'),q=$('#q'),tabs=[...document.querySelectorAll('.tab')],panes=[...document.querySelectorAll('.pane')],pos=[0,0];
+let cur=-1,y0=0;
+
+document.addEventListener('pointerdown',e=>{
+  const b=e.target.closest('.tab,.ib');if(!b)return;
+  const t=b.querySelector('.pill')||b,r=t.getBoundingClientRect(),d=Math.max(r.width,r.height)*2,s=document.createElement('span');
+  s.className='r';s.style.cssText=`width:${d}px;height:${d}px;left:${e.clientX-r.left-d/2}px;top:${e.clientY-r.top-d/2}px`;
+  t.appendChild(s);s.onanimationend=()=>s.remove();
+},{passive:true});
+
+const bars=on=>{if(!hd.classList.contains('s'))hd.classList.toggle('hide',!on);nv.classList.toggle('hide',!on)};
+addEventListener('scroll',()=>{
+  const y=Math.max(scrollY,0),d=y-y0;
+  hd.classList.toggle('lift',y>0);
+  if(Math.abs(d)>8||y<1){bars(d<0||y<64);y0=y}
+},{passive:true});
+
+async function load(p){
+  p.dataset.s=1;p.innerHTML='<div class="ld"></div>';
+  try{
+    const r=await fetch(p.dataset.src);if(!r.ok)throw 0;
+    const d=new DOMParser().parseFromString(await r.text(),'text/html');
+    p.replaceChildren(...[...d.head.children].filter(n=>/^(STYLE|LINK|SCRIPT)$/.test(n.tagName)),...d.body.childNodes);
+    p.querySelectorAll('script').forEach(o=>{const s=document.createElement('script');for(const a of o.attributes)s.setAttribute(a.name,a.value);s.text=o.text;o.replaceWith(s)});
+  }catch{
+    p.innerHTML='<div class="er"><p>Couldn\'t load this page</p><button>Retry</button></div>';
+    p.querySelector('button').onclick=()=>load(p);
+  }
+}
+
+function go(i){
+  if(i===cur){scrollTo({top:0,behavior:'smooth'});return bars(true)}
+  if(cur>=0)pos[cur]=scrollY;
+  const p=panes[i];
+  tabs.forEach((t,k)=>{t.classList.toggle('on',k===i);t.ariaCurrent=k===i?'page':'false'});
+  panes.forEach((x,k)=>x.hidden=k!==i);
+  p.style.setProperty('--dx',(i>cur?32:-32)+'px');
+  p.classList.remove('pg');void p.offsetWidth;p.classList.add('pg');
+  if(!p.dataset.s)load(p);
+  document.title=tabs[i].textContent;
+  bars(true);scrollTo(0,pos[i]);y0=pos[i];cur=i;
+}
+tabs.forEach((t,i)=>t.onclick=()=>go(i));
+go(0);
+
+const emit=()=>document.dispatchEvent(new CustomEvent('search',{detail:q.value.trim()})),
+ss=on=>{hd.classList.toggle('s',on);if(on)q.focus();else{q.value='';q.blur();emit()}};
+$('#so').onclick=()=>{history.pushState({s:1},'');ss(true)};
+$('#sx').onclick=()=>history.back();
+$('#sc').onclick=()=>{q.value='';emit();q.focus()};
+q.oninput=emit;
+q.onkeydown=e=>{if(e.key==='Escape')history.back()};
+onpopstate=()=>{if(hd.classList.contains('s'))ss(false)};
+</script>
+</body>
+</html>
