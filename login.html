@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fdfbff" media="(prefers-color-scheme:light)">
+<meta name="theme-color" content="#1a1c1e" media="(prefers-color-scheme:dark)">
+<title>Sign in</title>
+<style>
+:root{color-scheme:light dark;--p:#0b57d0;--on-p:#fff;--bg:#fdfbff;--fg:#1a1c1e;--sf:#e9eef6;--mut:#44474e;--out:#74777f;--err:#ba1a1a;--ease:cubic-bezier(.2,0,0,1)}
+@media(prefers-color-scheme:dark){:root{--p:#a8c7fa;--on-p:#062e6f;--bg:#1a1c1e;--fg:#e2e2e6;--sf:#2b2f33;--mut:#c4c6d0;--out:#8e9099;--err:#ffb4ab}}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font:16px/1.5 Roboto,system-ui,sans-serif;background:var(--bg);color:var(--fg);overflow:hidden}
+#app{position:relative;height:100dvh;overflow:hidden}
+.view{position:absolute;inset:0;overflow-y:auto;display:flex;flex-direction:column;padding:max(28px,env(safe-area-inset-top)) 24px max(24px,env(safe-area-inset-bottom));background:var(--bg);transition:transform .4s var(--ease),opacity .4s var(--ease);will-change:transform}
+#v2{transform:translateX(100%)}
+.otp #v1{transform:translateX(-25%);opacity:0}
+.otp #v2{transform:none}
+img{width:72px;height:72px;object-fit:contain;margin-bottom:20px}
+h1{font-size:28px;line-height:36px;font-weight:400;margin-bottom:4px}
+p{color:var(--mut)}
+form{display:flex;flex-direction:column;gap:16px;margin-top:28px}
+.field{position:relative}
+.field input,.field textarea{width:100%;display:block;padding:24px 16px 8px;border:0;border-bottom:2px solid var(--out);border-radius:16px 16px 4px 4px;background:var(--sf);color:inherit;font:inherit;outline:0;resize:none}
+.field label{position:absolute;left:16px;top:16px;color:var(--mut);pointer-events:none;transform-origin:0 0;transition:transform .2s var(--ease)}
+.field :is(input,textarea):focus+label,.field :is(input,textarea):not(:placeholder-shown)+label{transform:translateY(-10px) scale(.75)}
+.field :is(input,textarea):focus{border-color:var(--p)}
+.field:focus-within label{color:var(--p)}
+.field small{display:none;padding:4px 16px 0;font-size:12px;color:var(--err)}
+.field.err small{display:block}
+.field.err :is(input,textarea){border-color:var(--err)}
+.btn{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;width:100%;height:56px;border:0;border-radius:28px;background:var(--p);color:var(--on-p);font:500 16px Roboto,system-ui,sans-serif;cursor:pointer;transition:transform .15s var(--ease)}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.5}
+.btn.busy{color:transparent;pointer-events:none}
+.btn.busy::after{content:"";position:absolute;width:22px;height:22px;border:3px solid var(--on-p);border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+.txt{background:none;color:var(--p);width:auto;padding:0 16px;height:40px;margin:0 auto}
+.icon{width:48px;height:48px;margin:-8px 0 12px -12px;border-radius:50%;background:none;color:var(--fg)}
+.r{position:absolute;border-radius:50%;background:currentColor;opacity:.2;transform:scale(0);animation:rp .6s ease-out forwards;pointer-events:none}
+.row{display:flex;gap:12px;justify-content:center;margin:32px 0}
+.o{width:64px;height:72px;border:0;border-bottom:2px solid var(--out);border-radius:16px 16px 4px 4px;background:var(--sf);color:inherit;font-family:inherit;font-size:36px;font-weight:500;text-align:center;outline:0}
+.o:focus{border-color:var(--p)}
+.sh{animation:sh .4s}
+#sb{position:fixed;left:16px;right:16px;bottom:max(16px,env(safe-area-inset-bottom));padding:14px 16px;border-radius:12px;background:#2f3033;color:#f1f0f4;font-size:14px;transform:translateY(150%);transition:transform .3s var(--ease);z-index:9}
+#sb.show{transform:none}
+@keyframes rp{to{transform:scale(1);opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes sh{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+/* native-like cross-page animation (home.html needs the same @view-transition rule) */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:.3s cubic-bezier(.3,0,.8,.15) both out}
+::view-transition-new(root){animation:.4s var(--ease) both in}
+@keyframes out{to{transform:translateX(-25%);opacity:0}}
+@keyframes in{from{transform:translateX(100%)}}
+@media(prefers-reduced-motion:reduce){*,::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div id="app">
+  <section class="view" id="v1">
+    <img src="src/logo.png" alt="Logo" width="72" height="72" fetchpriority="high">
+    <h1>Welcome</h1>
+    <p>Enter your details to continue</p>
+    <form id="f" novalidate>
+      <div class="field"><input name="name" id="n" placeholder=" " autocomplete="name"><label for="n">Full name</label><small>Enter your full name</small></div>
+      <div class="field"><input name="mobile" id="m" type="tel" inputmode="tel" maxlength="16" placeholder=" " autocomplete="tel"><label for="m">Mobile number</label><small>Enter a valid mobile number</small></div>
+      <div class="field"><textarea name="address" id="a" rows="2" placeholder=" " autocomplete="street-address"></textarea><label for="a">Address</label><small>Enter your address</small></div>
+      <button class="btn ripple" type="submit">Send OTP</button>
+    </form>
+  </section>
+
+  <section class="view" id="v2" inert>
+    <button class="btn icon ripple" id="bk" aria-label="Back"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20z"/></svg></button>
+    <h1>Verify OTP</h1>
+    <p>Enter the 4-digit code sent to <b id="ph"></b></p>
+    <div class="row">
+      <input class="o" inputmode="numeric" autocomplete="one-time-code" aria-label="Digit 1">
+      <input class="o" inputmode="numeric" aria-label="Digit 2">
+      <input class="o" inputmode="numeric" aria-label="Digit 3">
+      <input class="o" inputmode="numeric" aria-label="Digit 4">
+    </div>
+    <button class="btn ripple" id="vb">Verify</button>
+    <button class="btn txt ripple" id="rs" disabled style="margin-top:12px"></button>
+    <p style="text-align:center;font-size:12px;margin-top:auto">Demo mode: use 1234</p>
+  </section>
+</div>
+<div id="sb" role="alert"></div>
+
+<script>
+const $=s=>document.querySelector(s),app=$('#app'),f=$('#f'),box=[...document.querySelectorAll('.o')],sb=$('#sb');
+let tt,tm;
+const toast=m=>{sb.textContent=m;sb.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>sb.classList.remove('show'),3500)};
+
+// ripple (one delegated listener)
+document.addEventListener('pointerdown',e=>{
+  const b=e.target.closest('.ripple');if(!b||b.disabled)return;
+  const r=b.getBoundingClientRect(),d=Math.max(r.width,r.height)*2,s=document.createElement('span');
+  s.className='r';s.style.cssText=`width:${d}px;height:${d}px;left:${e.clientX-r.left-d/2}px;top:${e.clientY-r.top-d/2}px`;
+  b.appendChild(s);s.onanimationend=()=>s.remove();
+},{passive:true});
+
+// already signed in? skip straight to home
+fetch('/api/me',{credentials:'same-origin'}).then(r=>r.ok&&location.replace('home.html')).catch(()=>{});
+
+// validation
+const rules={name:v=>v.trim().length>1,mobile:v=>/^\+?\d{10,15}$/.test(v.replace(/[\s-]/g,'')),address:v=>v.trim().length>4};
+f.addEventListener('input',e=>e.target.closest('.field')?.classList.remove('err'));
+// mobile: digits only, with one optional leading +
+f.elements.mobile.addEventListener('input',e=>{const i=e.target;i.value=i.value.replace(/[^\d+]/g,'').replace(/(?!^)\+/g,'')});
+function valid(){let ok=true;for(const k in rules){const el=f.elements[k],g=rules[k](el.value);el.closest('.field').classList.toggle('err',!g);if(!g&&ok){el.focus();ok=false}}return ok}
+
+// page transition (history-aware, so the system back gesture works)
+const show=on=>{app.classList.toggle('otp',on);$('#v2').inert=!on;$('#v1').inert=on};
+function timer(){let n=30;const b=$('#rs');b.disabled=true;b.textContent='Resend in 30s';clearInterval(tm);
+  tm=setInterval(()=>{n--;b.textContent=n>0?`Resend in ${n}s`:'Resend OTP';if(n<=0){clearInterval(tm);b.disabled=false}},1000)}
+f.onsubmit=e=>{e.preventDefault();if(!valid())return;
+  $('#ph').textContent=f.elements.mobile.value.trim();
+  history.pushState({o:1},'');show(true);box[0].focus({preventScroll:true});timer();toast('OTP sent')};
+onpopstate=()=>{show(false);box.forEach(b=>b.value='')};
+$('#bk').onclick=()=>history.back();
+$('#rs').onclick=()=>{timer();toast('OTP sent again')};
+
+// otp boxes (typing, paste and SMS autofill)
+box.forEach((b,i)=>{
+  b.oninput=()=>{const d=b.value.replace(/\D/g,'');b.value='';
+    [...d].slice(0,4-i).forEach((c,j)=>box[i+j].value=c);
+    box[Math.min(i+d.length,3)].focus();
+    if(box.every(x=>x.value))verify()};
+  b.onkeydown=e=>{if(e.key==='Backspace'&&!b.value&&i)box[i-1].focus()};
+});
+$('#vb').onclick=verify;
+
+async function verify(){
+  const b=$('#vb'),otp=box.map(x=>x.value).join('');
+  if(b.classList.contains('busy'))return;
+  if(otp.length<4)return toast('Enter the 4-digit OTP');
+  b.classList.add('busy');
+  try{
+    const r=await fetch('/api/login',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},
+      body:JSON.stringify({...Object.fromEntries(new FormData(f)),otp,tz:Intl.DateTimeFormat().resolvedOptions().timeZone,screen:`${screen.width}x${screen.height}@${devicePixelRatio}`,lang:navigator.language})});
+    if(r.ok)return location.replace('home.html');
+    if(r.status===401){const w=$('.row');w.classList.remove('sh');void w.offsetWidth;w.classList.add('sh');box.forEach(x=>x.value='');box[0].focus();toast('Incorrect OTP. Check the code and try again.')}
+    else toast('Sign-in failed. Check your details and try again.');
+  }catch{toast('No connection. Check your internet and try again.')}
+  b.classList.remove('busy');
+}
+</script>
+</body>
+</html>
