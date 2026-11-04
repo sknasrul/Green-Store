@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fbfdf7">
+<title>Home</title>
+<style>
+:root{--ff:Roboto,"Noto Sans Bengali",system-ui,sans-serif;--em:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;--ease:cubic-bezier(.2,0,0,1);--bg:#fbfdf7;--fg:#191d17;--mut:#5d675b;--sf:#eef2e8;--p:#1b6d2f;--on-p:#fff;--sc:#d4e8d0;--on-sc:#0f200f;--ln:#c3c9bf;--tv:#d8f0cf;--tf:#d3e7fb;--tg:#f6e8bf;--rd:#ba1a1a;color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#10150f;--fg:#e0e4da;--mut:#a2ac9f;--sf:#1b211a;--p:#97d79f;--on-p:#00390f;--sc:#3a4b39;--on-sc:#d4e8d0;--ln:#40493e;--tv:#263c2a;--tf:#1f3649;--tg:#3d3522;--rd:#ffb4ab;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#10150f;--fg:#e0e4da;--mut:#a2ac9f;--sf:#1b211a;--p:#97d79f;--on-p:#00390f;--sc:#3a4b39;--on-sc:#d4e8d0;--ln:#40493e;--tv:#263c2a;--tf:#1f3649;--tg:#3d3522;--rd:#ffb4ab;color-scheme:dark}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--fg);font:400 14px/20px var(--ff)}
+button{padding:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer;touch-action:manipulation}
+svg{flex:none;width:24px;height:24px;fill:currentColor}
+[data-k=f]{--t:var(--tf)}[data-k=g]{--t:var(--tg)}
+@keyframes up{from{opacity:0;transform:translateY(16px)}}
+#gh{position:fixed;inset:0;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top)}
+.ab{padding:8px 12px 4px}
+.sb{display:flex;align-items:center;gap:10px;height:48px;padding:0 16px;border-radius:24px;background:var(--sf);color:var(--mut)}
+.sb input{flex:1;min-width:0;height:100%;border:0;outline:0;background:none;color:var(--fg);font:400 16px var(--ff)}
+.tb{position:relative;display:flex;border-bottom:1px solid var(--ln)}
+.tb button{flex:1;height:48px;color:var(--mut);font:500 14px var(--ff);transition:color .2s}
+.tb .on{color:var(--p)}
+.ind{position:absolute;left:0;bottom:-1px;width:33.333%;will-change:transform}
+.ind:after{content:"";display:block;width:56px;height:3px;margin:auto;border-radius:3px 3px 0 0;background:var(--p)}
+.pgr{flex:1;min-height:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}
+.pgr::-webkit-scrollbar,.gl::-webkit-scrollbar{display:none}
+.pg{flex:0 0 100%;overflow-y:auto;overscroll-behavior:contain;scroll-snap-align:start;scroll-snap-stop:always;padding:12px 12px calc(110px + env(safe-area-inset-bottom))}
+.gr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media(min-width:600px){.gr{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:840px){.gr{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(min-width:1100px){.gr{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.em{padding:64px 16px;color:var(--mut);text-align:center}
+.c{position:relative;display:flex;flex-direction:column;padding:6px;border-radius:16px;background:var(--sf);cursor:pointer;content-visibility:auto;contain-intrinsic-size:auto 220px;transition:transform .15s,box-shadow .25s}
+.c:active{transform:scale(.96)}
+.c.in{box-shadow:inset 0 0 0 2px var(--p)}
+.c.a{animation:up .45s var(--ease) both}
+.ph{position:relative;display:grid;place-items:center;aspect-ratio:4/3;overflow:hidden;border-radius:12px;background:var(--t,var(--tv));font:40px/1 var(--em)}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s}
+.ph img.ok{opacity:1}
+.of{position:absolute;left:0;top:6px;padding:0 6px;border-radius:0 8px 8px 0;background:var(--p);color:var(--on-p);font:700 10px/16px var(--ff)}
+.q{position:absolute;right:4px;top:4px;padding:0 7px;border-radius:10px;background:var(--p);color:var(--on-p);font:500 11px/20px var(--ff);transform:scale(0);transform-origin:100% 0;transition:transform .3s var(--ease)}
+.in .q{transform:none}
+.c h3{margin-top:6px;padding:0 2px;overflow:hidden;font:500 15px/20px var(--ff);text-overflow:ellipsis;white-space:nowrap}
+.en{display:-webkit-box;min-height:28px;padding:0 2px;overflow:hidden;color:var(--mut);font:400 11px/14px var(--ff);-webkit-box-orient:vertical;-webkit-line-clamp:2}
+.pr{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 4px;margin-top:auto;padding:4px 2px 0}
+.pr b{font:700 16px/22px var(--ff)}
+.pr small,.pr s{color:var(--mut);font:400 11px/16px var(--ff)}
+/* detail page */
+.dt{position:fixed;inset:0;z-index:20;overflow-y:auto;overscroll-behavior:contain;background:var(--bg);visibility:hidden;transform-origin:0 0}
+.dt.on{visibility:visible}
+.dc{max-width:720px;margin:0 auto;padding-bottom:calc(120px + env(safe-area-inset-bottom))}
+.stk{position:sticky;top:0;z-index:3;height:0}
+.bk{position:absolute;left:12px;top:calc(env(safe-area-inset-top) + 8px);display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--bg);box-shadow:0 1px 4px rgba(0,0,0,.35);transition:transform .15s}
+.bk:active{transform:scale(.9)}
+.gw{position:relative}
+.gl{display:flex;width:100%;aspect-ratio:4/3;max-height:56vh;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.sl{position:relative;flex:0 0 100%;display:grid;place-items:center;overflow:hidden;scroll-snap-align:start;background:var(--t,var(--tv));font:112px/1 var(--em)}
+.sl i{display:block;font-style:normal}
+.sl:nth-child(2) i{transform:scaleX(-1) rotate(14deg)}
+.sl:nth-child(3) i{transform:rotate(-28deg) scale(.75)}
+.sl:nth-child(4) i{transform:scale(2.4) translate(-8%,8%)}
+.sl:nth-child(5) i{font-size:56px;letter-spacing:4px;transform:rotate(-8deg)}
+.sl img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s}
+.sl img.ok{opacity:1}
+.dots{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:6px}
+.dots i{width:6px;height:6px;border-radius:3px;background:var(--fg);opacity:.3;transition:width .25s var(--ease),opacity .25s}
+.dots .on{width:18px;opacity:.85}
+.di{padding:16px 16px 0}
+.go .di>*{animation:up .45s var(--ease) backwards}
+.go .di>:nth-child(2){animation-delay:.05s}.go .di>:nth-child(3){animation-delay:.1s}.go .di>:nth-child(n+4){animation-delay:.15s}
+.di h1{font:500 30px/38px var(--ff)}
+.sub{color:var(--mut);font:400 14px/20px var(--ff)}
+.dp{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-top:14px}
+.dp b{color:var(--p);font:700 32px/40px var(--ff)}
+.dp s{color:var(--mut);font:400 18px/24px var(--ff)}
+.dp span{padding:0 8px;border-radius:8px;background:var(--p);color:var(--on-p);font:700 12px/20px var(--ff)}
+.rt{margin-top:2px;color:var(--mut);font:400 13px/18px var(--ff)}
+.lb{margin:20px 0 8px;color:var(--mut);font:500 14px/20px var(--ff)}
+.qo{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.qo button{height:48px;border:1px solid var(--ln);border-radius:12px;font:500 15px var(--ff);transition:background-color .2s,color .2s,transform .15s}
+.qo button:active{transform:scale(.95)}
+.qo .on{border-color:transparent;background:var(--sc);color:var(--on-sc)}
+.ac{display:flex;gap:8px;margin-top:20px}
+.ac button{height:52px;border-radius:26px;font:500 16px var(--ff);transition:transform .15s}
+.ac button:active{transform:scale(.96)}
+.rmv{padding:0 22px;border:1px solid var(--ln)!important;color:var(--rd)}
+.sel{flex:1;background:var(--p);color:var(--on-p)}
+.mt{margin:28px 16px 10px;font:500 18px/24px var(--ff)}
+.more{padding:0 12px}
+/* bag dock */
+.dk{position:fixed;z-index:30;left:12px;right:12px;bottom:calc(8px + env(safe-area-inset-bottom));max-width:616px;height:76px;margin:0 auto;visibility:hidden;pointer-events:none;transition:visibility .4s}
+.dk.on{visibility:visible}
+.an{position:absolute;left:12px;top:10px;width:56px;height:56px}
+.bg{position:relative;display:flex;align-items:center;gap:12px;height:100%;padding:0 12px;overflow:hidden;border-radius:28px;background:var(--sc);color:var(--on-sc);box-shadow:0 2px 8px rgba(0,0,0,.28);opacity:0;transform:translateY(calc(100% + 24px));transition:transform .4s var(--ease),opacity .25s;pointer-events:auto}
+.dk.on .bg{opacity:1;transform:none}
+.bg:after{content:"";position:absolute;left:0;bottom:0;width:calc(var(--pg,0)*100%);height:3px;background:var(--p);transition:width .35s var(--ease),opacity .3s}
+.bg.ok:after{opacity:0}
+.bi{position:relative;display:grid;flex:none;place-items:center;width:56px;height:56px;border-radius:20px;background:var(--p);color:var(--on-p)}
+.bi svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
+.bi .b{fill:currentColor;fill-opacity:.25}
+.bn{position:absolute;top:-4px;right:-6px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--on-sc);color:var(--sc);font:700 12px/20px var(--ff);text-align:center}
+.bx{flex:1;min-width:0}
+.tt{display:flex;align-items:baseline;gap:8px;min-width:0}
+.tt b{flex:none;font:700 20px/26px var(--ff)}
+.tt small,.nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tt small{font:500 12px/16px var(--ff);opacity:.8}
+.nm{font:400 11px/16px var(--ff);opacity:.8}
+.od{flex:none;height:48px;padding:0 22px;border-radius:24px;background:var(--p);color:var(--on-p);font:500 15px var(--ff);transition:background-color .25s,color .25s}
+.bg:not(.ok) .od{background:color-mix(in srgb,var(--on-sc) 12%,transparent);color:color-mix(in srgb,var(--on-sc) 40%,transparent)}
+.ts{position:fixed;z-index:40;left:12px;right:12px;bottom:calc(96px + env(safe-area-inset-bottom));display:flex;justify-content:center;pointer-events:none}
+.ts span{max-width:100%;padding:12px 16px;border-radius:8px;background:var(--fg);color:var(--bg);opacity:0;transform:translateY(8px);transition:opacity .2s,transform .3s var(--ease)}
+.ts.on span{opacity:1;transform:none}
+.fl{position:fixed;z-index:50;display:grid;place-items:center;width:56px;height:56px;border:3px solid var(--bg);border-radius:50%;background:var(--sc);font:28px/1 var(--em);pointer-events:none}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div id="gh">
+  <header class="ab"><label class="sb"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.8l-.3-.3A6.5 6.5 0 1 0 9.5 16c1.6 0 3.1-.6 4.2-1.6l.3.3v.8l5 5 1.5-1.5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg><input type="text" placeholder="Search vegetables, fish, grains" enterkeyhint="search" autocomplete="off" aria-label="Search"></label></header>
+  <nav class="tb"><button class="on" data-t="0">🥬 Vegetables</button><button data-t="1">🐟 Fish</button><button data-t="2">🌾 Grains</button><i class="ind"></i></nav>
+  <main class="pgr">
+    <section class="pg"><div class="gr"></div><p class="em" hidden>No items found</p></section>
+    <section class="pg"><div class="gr"></div><p class="em" hidden>No items found</p></section>
+    <section class="pg"><div class="gr"></div><p class="em" hidden>No items found</p></section>
+  </main>
+</div>
+
+<div class="dt" aria-hidden="true">
+  <div class="dc">
+    <div class="stk"><button class="bk" data-a="bk" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20z"/></svg></button></div>
+    <div class="gw"><div class="gl"></div><div class="dots"><i class="on"></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="di">
+      <div><h1 lang="bn"></h1><p class="sub"></p></div>
+      <div><div class="dp"><b class="now"></b><s class="mrp"></s><span>50% OFF</span></div><p class="rt"></p></div>
+      <div><p class="lb">Choose quantity</p><div class="qo"></div></div>
+      <div class="ac"><button class="rmv" data-a="rm">Remove</button><button class="sel" data-a="sel">Select</button></div>
+    </div>
+    <h2 class="mt">More products</h2>
+    <div class="gr more"></div>
+  </div>
+</div>
+
+<div class="dk">
+  <i class="an"></i>
+  <div class="bg">
+    <div class="bi"><svg viewBox="0 0 24 24"><path class="b" d="M5 8h14l-1.2 11.2A2 2 0 0 1 15.800 21H8.200a2 2 0 0 1-2-1.800z"/><path d="M9 8V6.500a3 3 0 0 1 6 0V8"/><path d="M9.500 12.500c.6.900 1.400 1.300 2.500 1.300s1.900-.4 2.500-1.300"/></svg><b class="bn">0</b></div>
+    <div class="bx"><div class="tt"><b></b><small></small></div><div class="nm"></div></div>
+    <button class="od" aria-disabled="true">Order</button>
+  </div>
+</div>
+<div class="ts" role="status" aria-live="polite"><span></span></div>
+
+<script>
+(()=>{
+const MIN=150,
+/* optional own photos: {'Potato':'https://cdn.example.com/potato.jpg'} */
+IMG={},
+/* bengali|transliteration|english|low|high|unit|emoji|category|wikipedia title ; price = round((low+high)/2), MRP = 2 x price (50% off) */
+R=`আলু|Alu|Potato (Chandramukhi / Jyoti)|31|36|kg|🥔|v|Potato
+পেঁয়াজ|Piyaj|Red Onion (Big)|58|69|kg|🧅|v|Red onion
+ছোট পেঁয়াজ|Chhachi Piyaj ছাঁচি পেঁয়াজ|Small Onion / Shallot|70|83|kg|🧅|v|Shallot
+টমেটো|Tomato|Tomato (Local / Hybrid)|35|42|kg|🍅|v|Tomato
+কাঁচা লঙ্কা|Kacha Lanka|Green Chilli|59|70|kg|🌶️|v|Chili pepper
+বিট|Beet|Beetroot|34|40|kg|🍠|v|Beetroot
+কাঁচকলা|Kanchkola|Raw Banana / Plantain|12|14|kg|🍌|v|Cooking banana
+নটে শাক|Note Shak|Amaranth Leaves|8|9|kg|🥬|v|Amaranthus tricolor
+আমলকী|Amloki|Indian Gooseberry / Amla|83|98|kg|🍏|v|Phyllanthus emblica
+চালকুমড়ো|Chalkumro|Ash Gourd|20|23|kg|🍈|v|Wax gourd
+বেবি কর্ন|Baby Corn|Baby Corn|42|49|kg|🌽|v|Baby corn
+মোচা|Mocha|Plantain / Banana Flower|17|20|kg|🌷|v|Banana flower
+ক্যাপসিকাম|Capsicum|Green Capsicum / Bell Pepper|51|60|kg|🌶️|v|Bell pepper
+করলা / উচ্ছে|Korola Uchhe|Bitter Gourd|42|49|kg|🥒|v|Momordica charantia
+লাউ|Lau|Bottle Gourd|28|33|kg|🍐|v|Calabash
+মাখম শিম|Makham Shim|Butter Beans|46|55|kg|🥜|v|Lima bean
+শিম|Shim|Broad Beans / Fava Beans|42|49|kg|🌱|v|Vicia faba
+বাঁধাকপি|Bandhakopi|Cabbage|28|33|kg|🥬|v|Cabbage
+গাজর|Gajor|Carrot|36|43|kg|🥕|v|Carrot
+ফুলকপি|Phulkopi|Cauliflower|34|40|kg|🥦|v|Cauliflower
+ঝাড় শিম|Jhar Shim|Cluster Beans|41|48|kg|🌱|v|Guar
+নারকেল|Narkel|Fresh Coconut|61|72|kg|🥥|v|Coconut
+কচু পাতা|Kochu Pata|Colocasia / Taro Leaves|15|18|kg|🍃|v|Taro
+গাঠি কচু|Gathi Kochu|Colocasia / Taro Roots|28|33|kg|🥔|v|Taro
+ধনে পাতা|Dhone Pata|Coriander / Cilantro Leaves|12|14|kg|🌿|v|Coriander
+ভুট্টা|Bhutta|Sweet Corn|31|36|kg|🌽|v|Sweet corn
+শশা|Shosha|Cucumber|29|34|kg|🥒|v|Cucumber
+কারিপাতা|Kari Pata|Curry Leaves|36|43|kg|🌿|v|Curry tree
+শুলফা শাক|Shulpha Shak|Dill Leaves|13|16|kg|🌿|v|Dill
+সজনে ডাঁটা|Sojne Data|Drumsticks / Moringa|72|85|kg|🥒|v|Moringa oleifera
+বেগুন|Begun|Brinjal / Eggplant|34|40|kg|🍆|v|Eggplant
+বেগুন বড়|Boro Begun|Brinjal (Big / Bharta)|73|86|kg|🍆|v|Eggplant
+ওল কচু|Ol Kochu|Elephant Foot Yam|39|46|kg|🌰|v|Amorphophallus paeoniifolius
+মেথি শাক|Methi Shak|Fenugreek Leaves (Methi)|10|12|kg|🌿|v|Fenugreek
+ফ্রেঞ্চ বিনস|French Beans|French Beans / Green Beans|62|73|kg|🌱|v|Green bean
+রসুন|Rosun|Garlic|154|182|kg|🧄|v|Garlic
+আদা|Ada|Ginger|131|155|kg|🌰|v|Ginger
+পেঁয়াজ পাতা|Piyaj Pata|Spring Onion / Green Onion|33|39|kg|🌿|v|Scallion
+মটরশুঁটি|Motor Shuti|Green Peas|54|64|kg|🌱|v|Pea
+কুঁদরি|Kundri|Ivy Gourd / Scarlet Gourd|33|39|kg|🥒|v|Coccinia grandis
+পাতিলেবু|Pati Lebu|Lemon / Lime|99|117|kg|🍋|v|Lemon
+কাঁচা আম|Kancha Aam|Raw Mango|85|100|kg|🥭|v|Mango
+পুদিনা পাতা|Pudina Pata|Mint Leaves|6|7|bunch|🌿|v|Mentha
+মাশরুম|Mushroom|Button Mushroom|78|92|kg|🍄|v|Agaricus bisporus
+সরষে শাক|Sorshe Shak|Mustard Leaves|18|21|kg|🥬|v|Mustard greens
+ঢেঁড়স|Dherosh|Okra / Ladies Finger|31|36|kg|🥒|v|Okra
+মিষ্টি কুমড়ো|Mishti Kumro|Pumpkin|20|23|kg|🎃|v|Pumpkin
+মূল|Mula|Radish (Daikon)|32|38|kg|🥕|v|Daikon
+ঝিঙে|Jhinge|Ridge Gourd|39|46|kg|🥒|v|Luffa acutangula
+চিচিঙ্গা|Chichinga|Snake Gourd|30|35|kg|🥒|v|Trichosanthes cucumerina
+টকে পালং|Toke Palong|Sorrel Leaves|17|20|kg|🥬|v|Sorrel
+পালং শাক|Palong Shak|Spinach|15|18|kg|🥬|v|Spinach
+রাঙা আলু|Ranga Alu|Sweet Potato|36|43|kg|🍠|v|Sweet potato
+কাঁকরোল|Kakrol|Teasel Gourd / Kakrol|40|40|kg|🥒|v|Momordica dioica
+পটল|Potol|Pointed Gourd / Parwal|42|42|kg|🥒|v|Trichosanthes dioica
+রুই মাছ|Rui Machh|Rohu Fish (Live / Fresh Cut)|239|329|kg|🐟|f|Rohu
+কাতলা মাছ|Katla Machh|Catla / Katla Fish (Whole Cut / Peti)|299|549|kg|🐟|f|Catla
+ইলিশ মাছ|Ilish Machh|Hilsa / Ilish Fish (Padma / Sundarbans)|850|1500|kg|🐟|f|Tenualosa ilisha
+পাবদা মাছ|Pabda Machh|Pabda / Indian Butter Catfish|350|649|kg|🐠|f|Ompok pabda
+ট্যাংরা মাছ|Tangra Machh|Tangra Catfish (Sundarbans Riverine)|479|949|kg|🐠|f|Mystus
+গলদা চিংড়ি|Golda Chingri|Freshwater Giant Prawn (Scampi)|829|850|kg|🦐|f|Macrobrachium rosenbergii
+মৌরলা মাছ|Mourola Machh|Mourola (Small Carplet Fish)|409|420|kg|🐠|f|Amblypharyngodon mola
+ভেটকি মাছ|Bhetki Machh|Asian Sea Bass / Vetki (Whole / Fillet)|699|799|kg|🐟|f|Barramundi
+আড় মাছ|Aar Machh|Aar Catfish (Headless / Whole)|599|798|kg|🐟|f|Sperata aor
+চিতল মাছ|Chitol Machh|Clown Knifefish (Chitol Peti Cut)|1299|1299|kg|🐟|f|Chitala chitala
+বাটা মাছ|Bata Machh|Fresh Bata Fish|200|299|kg|🐠|f|Labeo bata
+শোল মাছ|Shol Machh|Snakehead Murrel / Live Shol|659|659|kg|🐟|f|Channa striata
+গোবিন্দভোগ চাল|Gobindobhog Chal|Gobindobhog Aromatic Short-Grain Rice|75|168|kg|🍚|g|Gobindobhog rice
+মিনিকেট চাল|Miniket Chal|Miniket Parboiled Medium-Grain Rice|34|40|kg|🌾|g|Parboiled rice
+স্বর্ণা মনসুরী চাল|Swarna Mansoori|Swarna Mansoori Daily Grain Rice|22|30|kg|🌾|g|Rice`.split('\n').map(r=>{const f=r.split('|');return{bn:f[0],en:f[2],p:Math.round((+f[3]+ +f[4])/2),u:f[5],m:f[6],k:f[7],w:f[8],h:(f[0]+' '+f[1]+' '+f[2]).toLowerCase()}}),
+K=['v','f','g'],
+$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],
+fmt=n=>'₹'+Math.round(n).toLocaleString('en-IN'),
+kg=p=>p.u==='kg',
+lab=(p,q)=>kg(p)?(q<1000?q+' g':q/1000+' kg'):q+(q>1?' bunches':' bunch'),
+amt=(p,q)=>kg(p)?Math.round(p.p*q/1000):p.p*q,
+OPT=p=>kg(p)?[500,1000,2000,3000,4000,5000]:[1,2,3,4,5],
+vib=()=>navigator.vibrate&&navigator.vibrate(8),
+RM=matchMedia('(prefers-reduced-motion:reduce)'),
+root=$('#gh'),pgr=$('.pgr'),pgs=$$('.pg'),tabs=$$('.tb button'),ind=$('.ind'),sb=$('.sb input'),
+dt=$('.dt'),gl=$('.gl'),dots=$$('.dots i'),qo=$('.qo'),now=$('.now'),sel=$('.sel'),rmv=$('.rmv'),
+dk=$('.dk'),an=$('.an'),bag=$('.bg'),bi=$('.bi'),bn=$('.bn'),tt=$('.tt b'),hn=$('.tt small'),nm=$('.nm'),od=$('.od'),ts=$('.ts'),tx=$('.ts span'),
+cart=new Map();
+let s='',total=0,cur=-1,qty=0,shown=0,rf,tm,isOpen=false,pi=0,gi=0,LC={};
+
+/* ---------- cards ---------- */
+const card=(i,a)=>{const p=R[i],q=cart.get(i);return`<article class="c${q?' in':''}${a?' a':''}" data-i="${i}" data-k="${p.k}" tabindex="0" role="button"${a?` style="animation-delay:${a*40}ms"`:''}><div class="ph"><span>${p.m}</span><i class="of">50% OFF</i><b class="q">${q?lab(p,q):''}</b></div><h3 lang="bn">${p.bn}</h3><p class="en">${p.en}</p><div class="pr"><b>${fmt(p.p)}</b><small>/ ${p.u}</small><s>${fmt(p.p*2)}</s></div></article>`};
+K.forEach((k,j)=>{let n=0;pgs[j].querySelector('.gr').innerHTML=R.map((p,i)=>p.k===k?card(i,n++<8?n:0):'').join('')});
+
+/* ---------- tabs <-> pager ---------- */
+let raf=0;
+pgr.addEventListener('scroll',()=>{if(raf)return;raf=requestAnimationFrame(()=>{raf=0;const x=pgr.scrollLeft/pgr.clientWidth,n=Math.round(x);ind.style.transform=`translateX(${x*100}%)`;if(n!==pi&&tabs[n]){tabs[pi].classList.remove('on');tabs[n].classList.add('on');pi=n}})},{passive:true});
+tabs.forEach((b,i)=>b.onclick=()=>pgr.scrollTo({left:i*pgr.clientWidth,behavior:RM.matches?'auto':'smooth'}));
+
+/* ---------- search ---------- */
+const apply=()=>{const n=[0,0,0];$$('.pgr .c').forEach(c=>{const p=R[c.dataset.i],v=p.h.includes(s);c.hidden=!v;if(v)n[K.indexOf(p.k)]++});$$('.em').forEach((e,j)=>e.hidden=n[j]>0)};
+sb.addEventListener('input',()=>{s=sb.value.trim().toLowerCase();apply()});
+document.addEventListener('search',e=>{s=String(e.detail).toLowerCase();sb.value=e.detail;apply()});
+
+/* ---------- bag ---------- */
+const toast=m=>{tx.textContent=m;ts.classList.add('on');clearTimeout(tm);tm=setTimeout(()=>ts.classList.remove('on'),2600)},
+paint=()=>{
+  const on=cart.size>0;dk.classList.toggle('on',on);
+  try{localStorage.setItem('gh.cart',JSON.stringify([...cart].map(([i,q])=>[R[i].bn,q])))}catch{}
+  if(!on)return;
+  let t=0;cart.forEach((q,i)=>t+=amt(R[i],q));total=t;
+  const g=t>=MIN,ks=[...cart.keys()];
+  tt.textContent=fmt(t);hn.textContent=g?'':'Add '+fmt(MIN-t)+' more';
+  nm.textContent=ks.slice(0,3).map(i=>R[i].bn).join(', ')+(ks.length>3?', ...':'');
+  bn.textContent=ks.length;bag.classList.toggle('ok',g);bag.style.setProperty('--pg',Math.min(t/MIN,1));od.setAttribute('aria-disabled',!g);
+},
+set=(i,q)=>{
+  const p=R[i];q>0?cart.set(i,q):cart.delete(i);
+  $$('.c[data-i="'+i+'"]').forEach(c=>{c.classList.toggle('in',cart.has(i));c.querySelector('.q').textContent=cart.has(i)?lab(p,q):''});
+  paint();
+},
+bump=()=>{
+  const o={duration:480,easing:'cubic-bezier(.2,0,0,1)'};
+  bi.animate([{transform:'none'},{transform:'scale(1.18,.82)',offset:.25},{transform:'scale(.92,1.1)',offset:.55},{transform:'none'}],o);
+  bn.animate([{transform:'scale(1)'},{transform:'scale(1.6)',offset:.4},{transform:'scale(1)'}],o);
+},
+fly=(from,i)=>{
+  if(RM.matches)return bump();
+  const a=from.getBoundingClientRect(),t=an.getBoundingClientRect(),
+  dx=t.left+t.width/2-(a.left+a.width/2),dy=t.top+t.height/2-(a.top+a.height/2),e=document.createElement('div');
+  e.className='fl';e.textContent=R[i].m;e.style.cssText=`left:${a.left+a.width/2-28}px;top:${a.top+a.height/2-28}px`;document.body.append(e);
+  e.animate([{transform:'translate(0,0) scale(1)'},{transform:`translate(${dx*.5}px,${Math.min(dy,0)-90}px) scale(.9)`,offset:.45},{transform:`translate(${dx}px,${dy}px) scale(.35)`,opacity:.7}],{duration:700,easing:'cubic-bezier(.4,0,.2,1)'}).onfinish=()=>{e.remove();bump()};
+},
+order=()=>{
+  if(total<MIN){toast(`Minimum order is ${fmt(MIN)}. Add ${fmt(MIN-total)} more.`);od.animate([{transform:'none'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(-4px)'},{transform:'none'}],{duration:300});return}
+  const items=[...cart].map(([i,q])=>{const p=R[i];return{name:p.bn,en:p.en,qty:kg(p)?q/1000:q,unit:p.u,rate:p.p,amount:amt(p,q)}});
+  document.dispatchEvent(new CustomEvent('order',{detail:{items,total}}));toast('Order request sent');
+};
+dk.addEventListener('click',e=>{if(e.target.closest('.od'))order()});
+document.addEventListener('ordered',()=>[...cart.keys()].forEach(i=>set(i,0)));
+
+/* ---------- photos (Wikipedia: card thumbnails + detail gallery) ---------- */
+const place=()=>$$('.c').forEach(el=>{
+  const w=R[el.dataset.i].w,u=IMG[w]||LC[w],ph=el.querySelector('.ph');
+  if(!u||ph.querySelector('img'))return;
+  const im=new Image();im.alt='';im.decoding='async';im.loading='lazy';im.referrerPolicy='no-referrer';
+  im.onload=()=>im.classList.add('ok');im.onerror=()=>im.remove();im.src=u;ph.prepend(im);
+}),
+GC={},key=u=>u.split('/').pop().replace(/^\d+px-/,''),
+shots=async w=>{
+  if(GC[w])return GC[w];let u=[];
+  try{
+    const j=await(await fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&redirects=1&generator=images&gimlimit=40&prop=imageinfo&iiprop=url|mime|size&iiurlwidth=640&titles='+encodeURIComponent(w))).json();
+    u=Object.values((j.query&&j.query.pages)||{}).filter(x=>{const f=x.imageinfo&&x.imageinfo[0];return f&&/jpe?g|png|webp/.test(f.mime)&&f.width>=300&&!/icon|logo|flag|symbol|map|chart|diagram|graph|stub|wiki|commons|ambox|nutri|question|edit|distribution|production/i.test(x.title)}).map(x=>x.imageinfo[0].thumburl);
+  }catch{}
+  return GC[w]=u;
+};
+
+/* ---------- detail page ---------- */
+const price=snap=>{
+  const p=R[cur],t=amt(p,qty),on=cart.get(cur),f=snap?t:shown,d=t-f,st=performance.now();
+  $('.mrp').textContent=fmt(t*2);$('.rt').textContent='Rate '+fmt(p.p)+' / '+p.u+'  ·  MRP '+fmt(p.p*2)+'  ·  You save '+fmt(t);
+  cancelAnimationFrame(rf);
+  const tick=n=>{const x=Math.min((n-st)/260,1);now.textContent=fmt(f+d*(1-Math.pow(1-x,3)));if(x<1)rf=requestAnimationFrame(tick);else shown=t};rf=requestAnimationFrame(tick);
+  $$('.qo button').forEach(b=>b.classList.toggle('on',+b.dataset.v===qty));
+  sel.textContent=(on===qty?'Selected ✓':on?'Update':'Select')+'  ·  '+fmt(t);rmv.hidden=!on;
+},
+gal=async i=>{
+  const p=R[i],m=p.m;gl.innerHTML=[m,m,m,m,m+m+m].map(x=>`<div class="sl"><i>${x}</i></div>`).join('');gl.scrollLeft=0;gi=0;dots.forEach((d,j)=>d.classList.toggle('on',!j));
+  const u=await shots(p.w),seen=new Set(),L=[];
+  [IMG[p.w]||LC[p.w],...u].filter(Boolean).forEach(x=>{const k=key(x);if(!seen.has(k)){seen.add(k);L.push(x)}});
+  if(cur!==i)return;
+  L.slice(0,5).forEach((x,j)=>{const sl=gl.children[j];if(!sl)return;const im=new Image();im.alt='';im.decoding='async';im.onload=()=>{sl.append(im);requestAnimationFrame(()=>im.className='ok')};im.src=x});
+};
+gl.addEventListener('scroll',()=>{const n=Math.round(gl.scrollLeft/gl.clientWidth);if(n!==gi){gi=n;dots.forEach((d,j)=>d.classList.toggle('on',j===n))}},{passive:true});
+const show=i=>{
+  cur=i;const p=R[i],o=OPT(p);qty=cart.get(i)||o[kg(p)?1:0];
+  dt.dataset.k=p.k;$('.di h1').textContent=p.bn;$('.sub').textContent=p.en;
+  qo.innerHTML=o.map(v=>`<button data-v="${v}">${lab(p,v)}</button>`).join('');
+  $('.more').innerHTML=R.map((_,j)=>j).filter(j=>j!==i).sort((a,b)=>(R[b].k===p.k)-(R[a].k===p.k)).slice(0,24).map(j=>card(j)).join('');
+  place();price(1);dt.scrollTop=0;dt.classList.remove('go');void dt.offsetWidth;dt.classList.add('go');gal(i);
+},
+openP=(i,el)=>{
+  show(i);root.inert=true;dt.classList.add('on');dt.setAttribute('aria-hidden','false');isOpen=true;
+  try{history.pushState({g:1},'')}catch{}
+  if(RM.matches)return;
+  const r=el.getBoundingClientRect(),W=innerWidth,H=innerHeight;
+  dt.animate([{transform:`translate(${r.left}px,${r.top}px) scale(${r.width/W},${r.height/H})`,opacity:0},{opacity:1,offset:.4},{transform:'none',opacity:1}],{duration:380,easing:'cubic-bezier(.2,0,0,1)'});
+},
+closeP=pop=>{
+  if(!isOpen)return;isOpen=false;
+  if(!pop&&history.state&&history.state.g)try{history.back()}catch{}
+  const el=$('.pgr .c[data-i="'+cur+'"]'),r=el&&el.getBoundingClientRect(),W=innerWidth,H=innerHeight,
+  vis=r&&r.width&&r.bottom>0&&r.top<H&&r.right>0&&r.left<W;
+  root.inert=false;dt.setAttribute('aria-hidden','true');
+  const done=()=>dt.classList.remove('on');
+  if(RM.matches)return done();
+  const a=dt.animate(vis?[{transform:'none',opacity:1},{opacity:0,offset:.7},{transform:`translate(${r.left}px,${r.top}px) scale(${r.width/W},${r.height/H})`,opacity:0}]:[{transform:'none',opacity:1},{transform:'translateY(48px)',opacity:0}],{duration:260,easing:'cubic-bezier(.3,0,.8,.15)',fill:'forwards'});
+  a.onfinish=()=>{done();a.cancel()};
+};
+dt.addEventListener('click',e=>{
+  const c=e.target.closest('.c'),b=e.target.closest('button');
+  if(c)return show(+c.dataset.i);
+  if(!b)return;
+  if(b.dataset.v){qty=+b.dataset.v;vib();return price()}
+  const a=b.dataset.a;
+  if(a==='bk')return closeP();
+  if(a==='sel'){set(cur,qty);vib();price();return fly(b,cur)}
+  if(a==='rm'){set(cur,0);price()}
+});
+root.addEventListener('click',e=>{const c=e.target.closest('.c');if(c)openP(+c.dataset.i,c)});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')return closeP();
+  if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('c'))e.target.click();
+});
+addEventListener('popstate',()=>closeP(true));
+
+/* ---------- boot ---------- */
+try{JSON.parse(localStorage.getItem('gh.cart')||'[]').forEach(([n,q])=>{const i=R.findIndex(p=>p.bn===n);if(i>-1&&q>0)set(i,q)})}catch{}
+(async()=>{
+  let c={};
+  try{const j=JSON.parse(localStorage.getItem('gh.img')||'null');if(j&&Date.now()-j.t<2592e6)c=j.d}catch{}
+  LC=c;place();
+  const need=[...new Set(R.map(p=>p.w))].filter(w=>!(w in c));
+  for(let n=0;n<need.length;n+=50){
+    const ch=need.slice(n,n+50);
+    try{
+      const j=await(await fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&redirects=1&prop=pageimages&piprop=thumbnail&pithumbsize=360&pilimit=50&titles='+ch.map(encodeURIComponent).join('%7C'))).json(),
+      q=j.query||{},N={},D={},P={};
+      (q.normalized||[]).forEach(x=>N[x.from]=x.to);(q.redirects||[]).forEach(x=>D[x.from]=x.to);
+      Object.values(q.pages||{}).forEach(x=>P[x.title]=x.thumbnail&&x.thumbnail.source);
+      ch.forEach(w=>{const f=N[w]||w;c[w]=P[D[f]||f]||''});
+    }catch{}
+  }
+  try{localStorage.setItem('gh.img',JSON.stringify({t:Date.now(),d:c}))}catch{}
+  LC=c;place();
+})();
+})();
+</script>
+</body>
+</html>
