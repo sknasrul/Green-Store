@@ -299,19 +299,48 @@ setView=k=>{
 };
 document.addEventListener('search',e=>{qs=String(e.detail).trim().toLowerCase();render()});
 
- bar follows the main header ---------- */
+/* ---------- category bar follows the main header ---------- */
 
 const hd = document.querySelector('header');
+let lp = 0;
 
+const sync = () => {
+    cb.style.top = (
+        hd
+            ? Math.max(0, Math.round(
+                hd.getBoundingClientRect().bottom
+            ))
+            : 0
+    ) + 'px';
+};
 
-  const sync=()=>{cb.style.top=(hd?Math.max(0,Math.round(hd.getBoundingClientRect().bottom)):0)+'px'},
-track=()=>{cancelAnimationFrame(lp);const t=performance.now()+600,f=()=>{sync();if(performance.now()<t)lp=requestAnimationFrame(f)};f()};
+const track = () => {
+    cancelAnimationFrame(lp);
 
-(pn||window).addEventListener('scroll',track,{passive:true});
+    const t = performance.now() + 600;
 
-addEventListener('resize',track);
+    const f = () => {
+        sync();
 
-if(hd)new MutationObserver(track).observe(hd,{attributes:true});
+        if (performance.now() < t) {
+            lp = requestAnimationFrame(f);
+        }
+    };
+
+    f();
+};
+
+(pn || window).addEventListener('scroll', track, {
+    passive: true
+});
+
+window.addEventListener('resize', track);
+
+if (hd) {
+    new MutationObserver(track).observe(hd, {
+        attributes: true
+    });
+}
 
 sync();
 
