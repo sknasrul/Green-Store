@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fbfdf7">
+<title>Offline</title>
+<style>
+:root{color-scheme:light dark;--bg:#fbfdf7;--fg:#191d17;--mut:#5d675b;--p:#1b6d2f;--on-p:#fff}
+@media(prefers-color-scheme:dark){:root{--bg:#10150f;--fg:#e0e4da;--mut:#a2ac9f;--p:#97d79f;--on-p:#00390f}}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{min-height:100dvh;display:grid;place-content:center;justify-items:center;gap:8px;padding:24px;text-align:center;background:var(--bg);color:var(--fg);font:16px/1.5 Roboto,system-ui,sans-serif}
+img{width:72px;height:72px;object-fit:contain;margin-bottom:16px}
+h1{font-size:24px;line-height:32px;font-weight:400}
+p{color:var(--mut)}
+button{margin-top:16px;height:48px;padding:0 32px;border:0;border-radius:24px;background:var(--p);color:var(--on-p);font:500 16px Roboto,system-ui,sans-serif;cursor:pointer}
+</style>
+</head>
+<body>
+<img src="/icon.png" alt="" width="72" height="72">
+<h1>You're offline</h1>
+<p>Check your connection and try again.</p>
+<button id="r">Retry</button>
+<script>
+document.getElementById('r').onclick=()=>location.reload();
+addEventListener('online',()=>location.reload());
+</script>
+</body>
+</html>
