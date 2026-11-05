@@ -289,26 +289,42 @@ setView=k=>{
 };
 document.addEventListener('search',e=>{qs=String(e.detail).trim().toLowerCase();render()});
 
-/* ---------- category bar sits exactly under the header, whatever it does ---------- */
-const hd=document.querySelector('header');let lp=0;
+/* ---------- category bar follows the main header ---------- */
+
+const hd = document.querySelector('header');
+
 const sync = () => {
-    const headerBottom = hd
-        ? hd.getBoundingClientRect().bottom
-        : 0;
+    if (!hd) {
+        cb.style.top = '0px';
+        return;
+    }
 
-    const panePadding = pn
-        ? parseFloat(getComputedStyle(pn).paddingTop)
-        : 0;
+    // Use the header's state, not its animated position
+    const hidden = hd.classList.contains('hide');
 
-    cb.style.top = Math.max(
-        0,
-        Math.round(headerBottom - panePadding)
-    ) + 'px';
+    cb.style.top = hidden
+        ? '0px'
+        : hd.getBoundingClientRect().height + 'px';
 };
-track=()=>{cancelAnimationFrame(lp);const t=performance.now()+600,f=()=>{sync();if(performance.now()<t)lp=requestAnimationFrame(f)};f()};
-(pn||window).addEventListener('scroll',track,{passive:true});
-addEventListener('resize',track);
-if(hd)new MutationObserver(track).observe(hd,{attributes:true});
+
+// Detect header hide/show
+if (hd) {
+    new MutationObserver(sync).observe(hd, {
+        attributes: true,
+        attributeFilter: ['class']
+    });
+
+    // Update after the header animation finishes
+    hd.addEventListener('transitionend', sync);
+}
+
+// Handle scrolling and resizing
+(pn || window).addEventListener('scroll', sync, {
+    passive: true
+});
+
+window.addEventListener('resize', sync);
+
 sync();
 
 /* ---------- endless feed: products the user has not seen come back under new titles ---------- */
