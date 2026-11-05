@@ -18,6 +18,10 @@ body:has(nav.hide) #hm{--b:calc(env(safe-area-inset-bottom) + 8px)}
 
 /* sticky category bar: its top offset is measured from the real header position by script (no gap, any header behaviour) */
 #hm .cb{position:sticky;top:0;z-index:4;display:flex;gap:6px;padding:8px 12px;overflow-x:auto;scrollbar-width:none;background:var(--bg,#f8f9ff)}
+  /* Move category bar to the screen top when main header hides */
+body:has(header.hide) #hm .cb {
+    top: 0;
+}
 #hm .cb::-webkit-scrollbar{display:none}
 #hm .cb button{flex:1 0 auto;height:36px;padding:0 12px;border:1px solid color-mix(in srgb,var(--mu) 28%,transparent);border-radius:18px;font:500 13px/34px Roboto,system-ui,sans-serif;color:var(--mu);white-space:nowrap;transition:background-color .25s,color .25s,border-color .25s,transform .2s var(--sg)}
 #hm .cb button:active{transform:scale(.94)}
@@ -289,43 +293,10 @@ setView=k=>{
 };
 document.addEventListener('search',e=>{qs=String(e.detail).trim().toLowerCase();render()});
 
-/* ---------- category bar follows the main header ---------- */
+ bar follows the main header ---------- */
 
 const hd = document.querySelector('header');
 
-const sync = () => {
-    if (!hd) {
-        cb.style.top = '0px';
-        return;
-    }
-
-    // Use the header's state, not its animated position
-    const hidden = hd.classList.contains('hide');
-
-    cb.style.top = hidden
-        ? '0px'
-        : hd.getBoundingClientRect().height + 'px';
-};
-
-// Detect header hide/show
-if (hd) {
-    new MutationObserver(sync).observe(hd, {
-        attributes: true,
-        attributeFilter: ['class']
-    });
-
-    // Update after the header animation finishes
-    hd.addEventListener('transitionend', sync);
-}
-
-// Handle scrolling and resizing
-(pn || window).addEventListener('scroll', sync, {
-    passive: true
-});
-
-window.addEventListener('resize', sync);
-
-sync();
 
 /* ---------- endless feed: products the user has not seen come back under new titles ---------- */
 const shuffle=a=>{for(let i=a.length;i>1;){const j=Math.random()*i--|0;[a[i],a[j]]=[a[j],a[i]]}return a},
