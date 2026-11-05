@@ -16,32 +16,64 @@ body:has(nav.hide) #hm{--b:calc(env(safe-area-inset-bottom) + 8px)}
 #hm [data-k=f]{--t:var(--tf)}#hm [data-k=g]{--t:var(--tg)}
 #hm button{padding:0;border:0;background:none;font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
 
-/* sticky category bar: sits under the header, slides up when the header hides */
-#hm .cb{position:sticky;top:var(--hh,60px);z-index:3;display:flex;gap:8px;padding:8px 12px;background:var(--bg,#f8f9ff);transition:top .35s var(--e)}
-body:has(header.hide) #hm .cb{top:0}
-#hm .cb button{flex:1;height:36px;border:1px solid color-mix(in srgb,var(--mu) 28%,transparent);border-radius:18px;font:500 13px/34px Roboto,system-ui,sans-serif;color:var(--mu);transition:background-color .25s,color .25s,border-color .25s,transform .2s var(--sg)}
+/* sticky category bar: its top offset is measured from the real header position by script (no gap, any header behaviour) */
+#hm .cb{position:sticky;top:0;z-index:4;display:flex;gap:6px;padding:8px 12px;overflow-x:auto;scrollbar-width:none;background:var(--bg,#f8f9ff)}
+#hm .cb::-webkit-scrollbar{display:none}
+#hm .cb button{flex:1 0 auto;height:36px;padding:0 12px;border:1px solid color-mix(in srgb,var(--mu) 28%,transparent);border-radius:18px;font:500 13px/34px Roboto,system-ui,sans-serif;color:var(--mu);white-space:nowrap;transition:background-color .25s,color .25s,border-color .25s,transform .2s var(--sg)}
 #hm .cb button:active{transform:scale(.94)}
 #hm .cb .on{border-color:transparent;background:var(--ct);color:var(--oc)}
 
-/* one strip per category: 3 columns visible, swipe sideways, page scrolls vertically */
-#hm .st{display:grid;grid-auto-flow:column;grid-template-rows:repeat(var(--r,1),auto);grid-auto-columns:calc((100% - 12px)/3);gap:6px;padding:4px 12px 10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 12px;overscroll-behavior-x:contain;scrollbar-width:none}
+/* section title row: Bengali name on the left, Show all on the right */
+#hm .ti{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 6px 2px 14px;min-height:46px}
+#hm .ti h2{overflow:hidden;font:600 20px/28px Roboto,"Noto Sans Bengali",system-ui,sans-serif;text-overflow:ellipsis;white-space:nowrap}
+#hm .sa{flex:none;height:40px;padding:0 12px;border-radius:20px;color:var(--ac);font:500 13px/40px Roboto,system-ui,sans-serif;transition:background-color .2s,transform .2s var(--sg)}
+#hm .sa:active{transform:scale(.94);background:var(--su)}
+
+/* one strip per section: ONE line, 2 cards visible, swipe sideways */
+#hm .st{display:grid;grid-auto-flow:column;grid-template-rows:auto;grid-auto-columns:calc((100% - 6px)/2);gap:6px;padding:4px 12px 10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 12px;overscroll-behavior-x:contain;scrollbar-width:none}
 #hm .st::-webkit-scrollbar{display:none}
+#hm .sec.off{overflow:hidden}
+/* grid used for "Show all" and search results: 2 per row */
+#hm .gr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:4px 12px 10px}
 #hm .em{padding:64px 16px;color:var(--mu);text-align:center}
 
 #hm .c{display:flex;flex-direction:column;gap:4px;min-width:0;padding:6px;border-radius:16px;background:var(--su);scroll-snap-align:start;cursor:pointer;transition:transform .4s var(--e),box-shadow .25s}
-#hm .c:active{transform:scale(.95)}
+#hm .c:active{transform:scale(.96)}
 #hm .c.in{box-shadow:inset 0 0 0 2px var(--ac)}
-#hm .ph{position:relative;display:grid;place-items:center;aspect-ratio:6/5;overflow:hidden;border-radius:12px;background:var(--t,var(--tv));font-size:32px;line-height:1}
+#hm .ph{position:relative;display:grid;place-items:center;aspect-ratio:6/5;overflow:hidden;border-radius:12px;background:var(--t,var(--tv));font-size:44px;line-height:1}
 #hm .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s;pointer-events:none}
 #hm .ph img.ok{opacity:1}
 #hm h3{padding:0 2px;overflow:hidden;font:600 16px/22px Roboto,"Noto Sans Bengali",system-ui,sans-serif;text-overflow:ellipsis;white-space:nowrap}
-#hm .en{display:-webkit-box;min-height:24px;padding:0 2px;overflow:hidden;color:var(--mu);font-size:10px;line-height:12px;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+#hm .en{display:-webkit-box;min-height:28px;padding:0 2px;overflow:hidden;color:var(--mu);font-size:11px;line-height:14px;-webkit-box-orient:vertical;-webkit-line-clamp:2}
 #hm .pr{display:flex;align-items:center;justify-content:space-between;gap:4px;margin-top:auto;padding:2px 0 0 2px}
-#hm .pr b{display:block;font:700 14px/18px Roboto,system-ui,sans-serif}
+#hm .pr b{display:block;font:700 15px/18px Roboto,system-ui,sans-serif}
 #hm .pr small{color:var(--mu);font-size:10px;line-height:12px}
-#hm .buy{flex:none;min-width:40px;height:30px;padding:0 8px;border-radius:15px;background:var(--ct);color:var(--oc);font:600 12px/30px Roboto,system-ui,sans-serif;transition:transform .2s var(--sg),background-color .25s,color .25s}
+#hm .buy{flex:none;min-width:44px;height:32px;padding:0 10px;border-radius:16px;background:var(--ct);color:var(--oc);font:600 12px/32px Roboto,system-ui,sans-serif;transition:transform .2s var(--sg),background-color .25s,color .25s}
 #hm .buy:active{transform:scale(.88)}
 #hm .in .buy{background:var(--ac);color:var(--oa)}
+
+/* endless feed loader dots */
+#hm .sn{display:flex;justify-content:center;gap:6px;padding:24px 0 12px}
+#hm .sn i{width:8px;height:8px;border-radius:50%;background:var(--ac);opacity:.35;animation:dt .9s var(--e) infinite}
+#hm .sn i:nth-child(2){animation-delay:.15s}#hm .sn i:nth-child(3){animation-delay:.3s}
+@keyframes dt{50%{transform:translateY(-6px);opacity:1}}
+
+/* instant product-opening screen: appears the moment a card is tapped, stays until the next page replaces it */
+#hm .lo{position:fixed;inset:0;z-index:20;overflow:auto;background:var(--bg,#f8f9ff);color:var(--fg,#191c24);opacity:0;visibility:hidden;transform:translateY(14px);transition:opacity .15s,transform .25s var(--e),visibility 0s .25s}
+#hm .lo.on{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+#hm .lp{position:fixed;top:0;left:0;width:40%;height:3px;background:var(--ac);animation:lp 1.1s var(--e) infinite}
+@keyframes lp{from{transform:translateX(-100%)}to{transform:translateX(260%)}}
+#hm .lw{max-width:640px;margin:0 auto;padding:12px 16px 32px}
+#hm .lb{display:grid;place-items:center;width:44px;height:44px;margin-bottom:8px;border-radius:50%;background:var(--su)}
+#hm .lb svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#hm .lh{position:relative;display:grid;place-items:center;aspect-ratio:4/3;overflow:hidden;border-radius:24px;background:var(--t,var(--tv));font-size:96px;line-height:1}
+#hm .lh img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s}
+#hm .lh img.ok{opacity:1}
+#hm .lw h2{margin-top:16px;font:600 26px/34px Roboto,"Noto Sans Bengali",system-ui,sans-serif}
+#hm .le{color:var(--mu);font-size:14px;line-height:20px}
+#hm .lc{display:block;margin:8px 0 16px;font:700 22px/28px Roboto,system-ui,sans-serif}
+#hm .sk{height:14px;margin-top:12px;border-radius:7px;background:linear-gradient(90deg,var(--su) 25%,var(--ct) 50%,var(--su) 75%);background-size:200% 100%;animation:sm 1.2s linear infinite}
+@keyframes sm{to{background-position:-200% 0}}
 
 /* order dock: floats above the index bottom bar and follows it when it hides */
 #hm .dk{position:fixed;z-index:3;left:12px;right:12px;bottom:var(--b);max-width:616px;height:64px;margin:0 auto;pointer-events:none;transition:bottom .35s var(--e)}
@@ -81,16 +113,39 @@ body:has(header.hide) #hm .cb{top:0}
 #hm .ts span{max-width:100%;padding:12px 16px;border-radius:12px;background:var(--fg,#191c24);color:var(--bg,#f8f9ff);opacity:0;transform:translateY(8px);transition:opacity .2s,transform .3s var(--e)}
 #hm .ts.on span{opacity:1;transform:none}
 #hm .fl{position:fixed;z-index:8;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--ct);font:16px/1 sans-serif;pointer-events:none}
-@media(prefers-reduced-motion:reduce){#hm *{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+@media(prefers-reduced-motion:reduce){#hm *{transition-duration:.01ms!important;animation-duration:.01ms!important}#hm .lp,#hm .sk,#hm .sn i{animation:none!important}}
 </style>
 </head>
 <body>
 <div id="hm">
-  <div class="cb"><button class="on">🥬 Vegetables</button><button>🐟 Fish</button><button>🌾 Grains</button></div>
-  <div class="sc"><div class="st"></div></div>
-  <div class="sc"><div class="st"></div></div>
-  <div class="sc"><div class="st"></div></div>
+  <div class="cb">
+    <button class="on" data-k="a">All</button>
+    <button data-k="v">🥬 Vegetables</button>
+    <button data-k="f">🐟 Fish</button>
+    <button data-k="g">🌾 Grains</button>
+  </div>
+
+  <div class="mn"></div>
+  <div class="gd" hidden></div>
   <p class="em" hidden>No items found</p>
+
+  <!-- endless "People also like" feed -->
+  <div class="fw"><div class="fd"></div><div class="sn"><i></i><i></i><i></i></div></div>
+
+  <!-- instant loading screen shown while a product page opens -->
+  <div class="lo" role="status" aria-live="polite" aria-label="Loading">
+    <i class="lp"></i>
+    <div class="lw">
+      <button class="lb" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="lh"><span></span><img alt=""></div>
+      <h2 lang="bn"></h2>
+      <p class="le"></p>
+      <b class="lc"></b>
+      <div class="sk" style="width:92%"></div>
+      <div class="sk" style="width:78%"></div>
+      <div class="sk" style="width:60%"></div>
+    </div>
+  </div>
 
   <div class="dk">
     <i class="an"></i>
@@ -180,6 +235,9 @@ R=`আলু|Alu|Potato (Chandramukhi / Jyoti)|31|36|kg|🥔|v|Potato
 মিনিকেট চাল|Miniket Chal|Miniket Parboiled Medium-Grain Rice|34|40|kg|🌾|g|Parboiled rice
 স্বর্ণা মনসুরী চাল|Swarna Mansoori|Swarna Mansoori Daily Grain Rice|22|30|kg|🌾|g|Rice`.split('\n').map(r=>{const f=r.split('|');return{bn:f[0],en:f[2],p:Math.round((+f[3]+ +f[4])/2),u:f[5],m:f[6],k:f[7],w:f[8],h:(f[0]+' '+f[1]+' '+f[2]).toLowerCase()}}),
 K=['v','f','g'],
+TT={v:'সবজি',f:'মাছ',g:'শস্য'},
+/* titles of the endless feed sections, used in rotation */
+RT=['People also like','You may be interested','Picked for you','Customers also bought','Trending near you','Worth a look','Fresh picks','Don\'t miss these','Popular this week','Hidden gems','Back for more?','More to explore'],
 root=document.getElementById('hm'),$=s=>root.querySelector(s),$$=s=>[...root.querySelectorAll(s)],
 fmt=n=>'₹'+Math.round(n).toLocaleString('en-IN'),
 kg=p=>p.u==='kg',
@@ -188,39 +246,90 @@ amt=(p,q)=>kg(p)?Math.round(p.p*q/1000):p.p*q,
 OPT=p=>kg(p)?[500,1000,2000,3000,4000,5000]:[1,2,3,4,5],
 vib=()=>navigator.vibrate&&navigator.vibrate(8),
 RM=matchMedia('(prefers-reduced-motion:reduce)'),
-secs=$$('.sc'),chips=$$('.cb button'),cb=$('.cb'),dk=$('.dk'),an=$('.an'),bk=$('.bk'),bi=$('.bi'),bn=$('.bn'),od=$('.od'),sh=$('.sh'),so=$('.so'),ts=$('.ts'),tx=$('.ts span'),
+chips=$$('.cb button'),cb=$('.cb'),mn=$('.mn'),gd=$('.gd'),em=$('.em'),fw=$('.fw'),fd=$('.fd'),sen=$('.sn'),lo=$('.lo'),lim=$('.lh img'),
+dk=$('.dk'),an=$('.an'),bk=$('.bk'),bi=$('.bi'),bn=$('.bn'),od=$('.od'),sh=$('.sh'),so=$('.so'),ts=$('.ts'),tx=$('.ts span'),
 pn=root.closest('.pane'),sc=pn||document.scrollingElement,
-cart=new Map(),els=[];
-let total=0,tm,held=0,sx=0,sy=0,si=0,toastT,LC={};
+cart=new Map(),seen=new Set(),
+ALL=R.map((_,i)=>i),
+idx=k=>ALL.filter(i=>R[i].k===k);
+let total=0,tm,held=0,sx=0,sy=0,si=0,toastT,LC={},view='a',qs='',raf=0,rn=0,pool=[],navT=0;
 
 /* ---------- cards ---------- */
-K.forEach((k,j)=>{
-  const st=secs[j].firstElementChild,n=R.filter(p=>p.k===k).length;
-  st.innerHTML=R.map((p,i)=>p.k!==k?'':`<article class="c" data-i="${i}" data-k="${k}" role="link" tabindex="0"><div class="ph"><span>${p.m}</span></div><h3 lang="bn">${p.bn}</h3><p class="en">${p.en}</p><div class="pr"><div><b>${fmt(p.p)}</b><small>/ ${p.u}</small></div><button class="buy">Buy</button></div></article>`).join('');
-  st.style.setProperty('--r',n>30?4:n>6?2:1);
-});
-$$('.c').forEach(c=>els[c.dataset.i]=c);
+const card=i=>{
+  const p=R[i],q=cart.get(i);
+  return `<article class="c${q?' in':''}" data-i="${i}" data-k="${p.k}" role="link" tabindex="0"><div class="ph"><span>${p.m}</span></div><h3 lang="bn">${p.bn}</h3><p class="en">${p.en}</p><div class="pr"><div><b>${fmt(p.p)}</b><small>/ ${p.u}</small></div><button class="buy">${q?lab(p,q):'Buy'}</button></div></article>`;
+},
+/* a card counts as "seen" once most of it has really been on screen (strips clip the rest) */
+sio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){seen.add(+e.target.dataset.i);sio.unobserve(e.target)}}),{threshold:.6}),
+place=(c=root)=>[...c.querySelectorAll('.c:not(.pic)')].forEach(c=>{
+  const u=LC[R[c.dataset.i].w];if(!u)return;c.classList.add('pic');
+  const im=new Image();im.alt='';im.decoding='async';im.draggable=false;im.onload=()=>im.classList.add('ok');im.onerror=()=>im.remove();im.src=u;c.querySelector('.ph').prepend(im);
+}),
+prep=c=>{place(c);c.querySelectorAll('.c').forEach(x=>sio.observe(x))};
 
-/* ---------- category bar <-> vertical scroll ---------- */
-const mark=()=>{
-  const bb=cb.getBoundingClientRect().bottom;let a=0;
-  secs.forEach((s,j)=>{if(!s.hidden&&s.getBoundingClientRect().top<=bb+8)a=j});
-  if(sc.scrollTop+sc.clientHeight>=sc.scrollHeight-4)a=secs.map(s=>!s.hidden).lastIndexOf(true);
-  chips.forEach((c,j)=>c.classList.toggle('on',j===a));
+/* ---------- main sections: title row + ONE horizontal line each ---------- */
+mn.innerHTML=K.map(k=>`<section class="sec"><div class="ti"><h2 lang="bn">${TT[k]}</h2><button class="sa" data-k="${k}">Show all</button></div><div class="st">${idx(k).map(card).join('')}</div></section>`).join('');
+prep(mn);
+
+/* ---------- views: All / one category (Show all) / search ---------- */
+const render=()=>{
+  const grid=!!qs||view!=='a';let n=0,h='';
+  if(qs){
+    const ids=ALL.filter(i=>(view==='a'||R[i].k===view)&&R[i].h.includes(qs));n=ids.length;
+    h=n?`<div class="ti"><h2>Results</h2></div><div class="gr">${ids.map(card).join('')}</div>`:'';
+  }else if(view!=='a'){
+    h=`<div class="ti"><h2 lang="bn">${TT[view]}</h2></div><div class="gr">${idx(view).map(card).join('')}</div>`;
+  }
+  gd.innerHTML=h;mn.hidden=grid;gd.hidden=!grid;fw.hidden=!!qs;em.hidden=!(qs&&!n);
+  prep(gd);if(!qs)fill();
+},
+setView=k=>{
+  view=k;chips.forEach(c=>c.classList.toggle('on',c.dataset.k===k));
+  render();sc.scrollTo({top:0});
 };
-let raf=0;(pn||window).addEventListener('scroll',()=>{raf||(raf=requestAnimationFrame(()=>{raf=0;mark()}))},{passive:true});
-chips.forEach((b,j)=>b.onclick=()=>{
-  const s=secs[j];if(s.hidden)return;
-  const h=(document.querySelector('header')||{}).offsetHeight||0,cur=sc.scrollTop,t0=cur+s.getBoundingClientRect().top-cb.offsetHeight;
-  sc.scrollTo({top:Math.max(0,t0<cur?t0-h:t0),behavior:RM.matches?'auto':'smooth'});
-});
+document.addEventListener('search',e=>{qs=String(e.detail).trim().toLowerCase();render()});
 
-/* ---------- search (event from index.html) ---------- */
-document.addEventListener('search',e=>{
-  const q=String(e.detail).toLowerCase();let t=0;
-  secs.forEach(s=>{let n=0;s.querySelectorAll('.c').forEach(c=>{const v=R[c.dataset.i].h.includes(q);c.hidden=!v;n+=v});s.hidden=!n;t+=n;s.firstElementChild.scrollLeft=0});
-  $('.em').hidden=t>0;mark();
-});
+/* ---------- category bar sits exactly under the header, whatever it does ---------- */
+const hd=document.querySelector('header');let lp=0;
+const sync=()=>{cb.style.top=(hd?Math.max(0,Math.round(hd.getBoundingClientRect().bottom)):0)+'px'},
+track=()=>{cancelAnimationFrame(lp);const t=performance.now()+600,f=()=>{sync();if(performance.now()<t)lp=requestAnimationFrame(f)};f()};
+(pn||window).addEventListener('scroll',track,{passive:true});
+addEventListener('resize',track);
+if(hd)new MutationObserver(track).observe(hd,{attributes:true});
+sync();
+
+/* ---------- endless feed: products the user has not seen come back under new titles ---------- */
+const shuffle=a=>{for(let i=a.length;i>1;){const j=Math.random()*i--|0;[a[i],a[j]]=[a[j],a[i]]}return a},
+pick=n=>{
+  const ids=[];
+  while(ids.length<n){
+    if(!pool.length){
+      const all=ALL.filter(i=>!ids.includes(i)),un=all.filter(i=>!seen.has(i));
+      pool=shuffle(un);if(un.length<n)pool=pool.concat(shuffle(all.filter(i=>seen.has(i))));
+    }
+    const i=pool.shift();if(!ids.includes(i))ids.push(i);
+  }
+  return ids;
+},
+fillSec=s=>{s.lastElementChild.innerHTML=s._ids.map(card).join('');prep(s)},
+/* sections far from the screen are emptied (height kept) and rebuilt when they come back, so the page can go on forever */
+vio=new IntersectionObserver(es=>es.forEach(e=>{
+  const s=e.target;
+  if(e.isIntersecting){if(s.classList.contains('off')){fillSec(s);s.classList.remove('off');s.style.height=''}}
+  else if(!s.classList.contains('off')&&s.offsetHeight){s.style.height=s.offsetHeight+'px';s.classList.add('off');s.lastElementChild.replaceChildren()}
+}),{rootMargin:'1800px 0px'}),
+recSec=()=>{
+  const s=document.createElement('section');s.className='sec';s._ids=pick(12);
+  s.innerHTML=`<div class="ti"><h2>${RT[rn++%RT.length]}</h2></div><div class="st"></div>`;
+  fillSec(s);vio.observe(s);return s;
+},
+fill=()=>{
+  if(fw.hidden||!sen.offsetParent)return;
+  let n=0;while(n++<8&&sen.getBoundingClientRect().top<innerHeight+300)fd.append(recSec());
+};
+new IntersectionObserver(es=>es.some(e=>e.isIntersecting)&&fill(),{rootMargin:'300px 0px'}).observe(sen);
+(pn||window).addEventListener('scroll',()=>{raf||(raf=requestAnimationFrame(()=>{raf=0;fill()}))},{passive:true});
+fill();
 
 /* ---------- order dock ---------- */
 const toast=m=>{tx.textContent=m;ts.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>ts.classList.remove('on'),2600)},
@@ -235,8 +344,10 @@ paint=()=>{
   bn.textContent=ks.length;bk.classList.toggle('ok',g);bk.style.setProperty('--pg',Math.min(t/MIN,1));od.setAttribute('aria-disabled',!g);
 },
 set=(i,q)=>{
-  const p=R[i],c=els[i];q>0?cart.set(i,q):cart.delete(i);
-  c.classList.toggle('in',q>0);c.querySelector('.buy').textContent=q>0?lab(p,q):'Buy';paint();
+  const p=R[i];q>0?cart.set(i,q):cart.delete(i);
+  /* the same product can appear in several places (strip, grid, feed) */
+  $$('.c[data-i="'+i+'"]').forEach(c=>{c.classList.toggle('in',q>0);c.querySelector('.buy').textContent=q>0?lab(p,q):'Buy'});
+  paint();
 },
 add=i=>set(i,Math.min((cart.get(i)||0)+(kg(R[i])?500:1),kg(R[i])?10000:20)),
 bump=()=>{
@@ -257,6 +368,19 @@ order=()=>{
 };
 document.addEventListener('ordered',()=>[...cart.keys()].forEach(i=>set(i,0)));
 
+/* ---------- open product: loading screen first, page change right after ---------- */
+lim.onload=()=>lim.classList.add('ok');
+const go=i=>{
+  const p=R[i],u=LC[p.w];
+  lo.dataset.k=p.k;lo.querySelector('.lh span').textContent=p.m;
+  lim.classList.remove('ok');u?lim.src=u:lim.removeAttribute('src');
+  lo.querySelector('h2').textContent=p.bn;lo.querySelector('.le').textContent=p.en;lo.querySelector('.lc').textContent=fmt(p.p)+' / '+p.u;
+  lo.scrollTop=0;lo.classList.add('on');
+  clearTimeout(navT);navT=setTimeout(()=>{location.href='/products?'+encodeURIComponent(p.en)},50);
+},
+unload=()=>{clearTimeout(navT);try{window.stop()}catch{}lo.classList.remove('on')};
+addEventListener('pageshow',()=>lo.classList.remove('on'));
+
 /* ---------- press & hold -> quantity sheet ---------- */
 const openSheet=i=>{
   const p=R[i],q=cart.get(i);si=i;
@@ -276,6 +400,7 @@ root.addEventListener('contextmenu',e=>e.preventDefault());
 root.addEventListener('click',e=>{
   if(held){held=0;return}
   const t=e.target;
+  if(t.closest('.lo')){if(t.closest('.lb'))unload();return}
   if(t.closest('.sh')){
     const b=t.closest('.so button');
     if(b){set(si,b.classList.contains('rm')?0:+b.dataset.v);vib();bump()}
@@ -283,19 +408,17 @@ root.addEventListener('click',e=>{
     return;
   }
   if(t.closest('.od'))return order();
+  const ch=t.closest('.cb button')||t.closest('.sa');
+  if(ch)return setView(ch.dataset.k);
   const c=t.closest('.c');if(!c)return;
   const i=+c.dataset.i,b=t.closest('.buy');
   if(b){add(i);vib();fly(b,i)}
-  else location.href='/products?'+encodeURIComponent(R[i].en);
+  else go(i);
 });
 root.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList.contains('c'))e.target.click()});
 
 /* ---------- boot: saved bag + product photos (Wikipedia thumbnails, cached 30 days) ---------- */
 try{JSON.parse(localStorage.getItem('gh.cart')||'[]').forEach(([n,q])=>{const i=R.findIndex(p=>p.bn===n);if(i>-1&&q>0)set(i,q)})}catch{}
-const place=()=>$$('.c:not(.pic)').forEach(c=>{
-  const u=LC[R[c.dataset.i].w];if(!u)return;c.classList.add('pic');
-  const im=new Image();im.alt='';im.decoding='async';im.draggable=false;im.onload=()=>im.classList.add('ok');im.onerror=()=>im.remove();im.src=u;c.firstChild.prepend(im);
-});
 (async()=>{
   try{const j=JSON.parse(localStorage.getItem('gh.img')||'null');if(j&&Date.now()-j.t<2592e6)LC=j.d}catch{}
   place();
