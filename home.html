@@ -291,7 +291,20 @@ document.addEventListener('search',e=>{qs=String(e.detail).trim().toLowerCase();
 
 /* ---------- category bar sits exactly under the header, whatever it does ---------- */
 const hd=document.querySelector('header');let lp=0;
-const sync=()=>{cb.style.top=(hd?Math.max(0,Math.round(hd.getBoundingClientRect().bottom)):0)+'px'},
+const sync = () => {
+    const headerBottom = hd
+        ? hd.getBoundingClientRect().bottom
+        : 0;
+
+    const panePadding = pn
+        ? parseFloat(getComputedStyle(pn).paddingTop)
+        : 0;
+
+    cb.style.top = Math.max(
+        0,
+        Math.round(headerBottom - panePadding)
+    ) + 'px';
+};
 track=()=>{cancelAnimationFrame(lp);const t=performance.now()+600,f=()=>{sync();if(performance.now()<t)lp=requestAnimationFrame(f)};f()};
 (pn||window).addEventListener('scroll',track,{passive:true});
 addEventListener('resize',track);
