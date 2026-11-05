@@ -16,10 +16,10 @@ body:has(nav.hide) #hm{--b:calc(env(safe-area-inset-bottom) + 8px)}
 #hm [data-k=f]{--t:var(--tf)}#hm [data-k=g]{--t:var(--tg)}
 #hm button{padding:0;border:0;background:none;font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
 
-/* sticky category bar: its top offset is measured from the real header position by script (no gap, any header behaviour) */
+/* Category bar follows the fixed header */
 #hm .cb {
     position: sticky;
-    top: 0;
+    top: var(--hh, 60px);
     z-index: 4;
     display: flex;
     gap: 6px;
@@ -27,6 +27,12 @@ body:has(nav.hide) #hm{--b:calc(env(safe-area-inset-bottom) + 8px)}
     overflow-x: auto;
     scrollbar-width: none;
     background: var(--bg, #f8f9ff);
+    transition: top .35s var(--ease);
+}
+
+/* When the main header hides, move category bar to the very top */
+body:has(header.hide) #hm .cb {
+    top: 0;
 }
 #hm .cb::-webkit-scrollbar{display:none}
 #hm .cb button{flex:1 0 auto;height:36px;padding:0 12px;border:1px solid color-mix(in srgb,var(--mu) 28%,transparent);border-radius:18px;font:500 13px/34px Roboto,system-ui,sans-serif;color:var(--mu);white-space:nowrap;transition:background-color .25s,color .25s,border-color .25s,transform .2s var(--sg)}
@@ -298,51 +304,6 @@ setView=k=>{
   render();sc.scrollTo({top:0});
 };
 document.addEventListener('search',e=>{qs=String(e.detail).trim().toLowerCase();render()});
-
-/* ---------- category bar follows the main header ---------- */
-
-const hd = document.querySelector('header');
-let lp = 0;
-
-const sync = () => {
-    cb.style.top = (
-        hd
-            ? Math.max(0, Math.round(
-                hd.getBoundingClientRect().bottom
-            ))
-            : 0
-    ) + 'px';
-};
-
-const track = () => {
-    cancelAnimationFrame(lp);
-
-    const t = performance.now() + 600;
-
-    const f = () => {
-        sync();
-
-        if (performance.now() < t) {
-            lp = requestAnimationFrame(f);
-        }
-    };
-
-    f();
-};
-
-(pn || window).addEventListener('scroll', track, {
-    passive: true
-});
-
-window.addEventListener('resize', track);
-
-if (hd) {
-    new MutationObserver(track).observe(hd, {
-        attributes: true
-    });
-}
-
-sync();
 
 /* ---------- endless feed: products the user has not seen come back under new titles ---------- */
 const shuffle=a=>{for(let i=a.length;i>1;){const j=Math.random()*i--|0;[a[i],a[j]]=[a[j],a[i]]}return a},
