@@ -17,24 +17,34 @@ body:has(nav.hide) #hm{--b:calc(env(safe-area-inset-bottom) + 8px)}
 #hm button{padding:0;border:0;background:none;font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
 
 /* Category bar follows the fixed header */
+/* Sticky category container */
 #hm .cb {
     position: sticky;
     top: var(--hh, 60px);
     z-index: 4;
-    display: flex;
-    gap: 6px;
-    padding: 8px 12px;
-    overflow-x: auto;
-    scrollbar-width: none;
+    padding: 8px 0;
     background: var(--bg, #f8f9ff);
     transition: top .35s var(--ease);
 }
 
-/* When the main header hides, move category bar to the very top */
+/* Move to the top when the main header hides */
 body:has(header.hide) #hm .cb {
     top: 0;
 }
-#hm .cb::-webkit-scrollbar{display:none}
+
+/* Only this inner element scrolls horizontally */
+#hm .cb-track {
+    display: flex;
+    gap: 6px;
+    padding: 0 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+}
+
+#hm .cb-track::-webkit-scrollbar {
+    display: none;
+}
 #hm .cb button{flex:1 0 auto;height:36px;padding:0 12px;border:1px solid color-mix(in srgb,var(--mu) 28%,transparent);border-radius:18px;font:500 13px/34px Roboto,system-ui,sans-serif;color:var(--mu);white-space:nowrap;transition:background-color .25s,color .25s,border-color .25s,transform .2s var(--sg)}
 #hm .cb button:active{transform:scale(.94)}
 #hm .cb .on{border-color:transparent;background:var(--ct);color:var(--oc)}
@@ -135,11 +145,13 @@ body:has(header.hide) #hm .cb {
 <body>
 <div id="hm">
   <div class="cb">
+  <div class="cb-track">
     <button class="on" data-k="a">All</button>
     <button data-k="v">🥬 Vegetables</button>
     <button data-k="f">🐟 Fish</button>
     <button data-k="g">🌾 Grains</button>
   </div>
+</div>
 
   <div class="mn"></div>
   <div class="gd" hidden></div>
