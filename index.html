@@ -145,7 +145,7 @@ function go(i){
   y0=p.scrollTop;hd.classList.toggle('lift',y0>0);bars(true);
 }
 tabs.forEach((t,i)=>t.onclick=()=>go(i));
-go(0);
+go(location.hash==='#orders'?1:0);
 idle(()=>panes.forEach(p=>p.dataset.s||load(p)));
 
 const emit=()=>document.dispatchEvent(new CustomEvent('search',{detail:q.value.trim()})),
@@ -156,7 +156,7 @@ $('#sc').onclick=()=>{q.value='';emit();q.focus()};
 q.oninput=emit;
 q.onkeydown=e=>{if(e.key==='Escape')history.back()};
 onpopstate=()=>{if(hd.classList.contains('s'))ss(false)};
-if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js'));
+if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{scope:'./'}).catch(console.error));
 </script>
 </body>
 </html>

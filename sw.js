@@ -1,5 +1,6 @@
-const V = 'green-store-v2';
+const V = 'green-store-v3';
 const SHELL = [
+  './',
   'index.html',
   'home.html',
   'login.html',
