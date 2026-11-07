@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PWA check</title>
+<link rel="manifest" href="manifest.json" crossorigin="use-credentials">
+<style>
+:root{color-scheme:light dark}
+body{font:15px/1.5 system-ui,sans-serif;margin:16px;max-width:640px}
+h1{font-size:20px}
+ul{padding:0}li{list-style:none;margin:6px 0;word-break:break-word}
+.ok::before{content:"✓ ";color:#1b6d2f;font-weight:700}
+.no::before{content:"✗ ";color:#b3261e;font-weight:700}
+.in::before{content:"• "}
+button{font:inherit;padding:10px 24px;border:0;border-radius:24px;background:#1b6d2f;color:#fff;margin:12px 0}
+</style>
+</head>
+<body>
+<h1>Green Store – install check</h1>
+<ul id="o"></ul>
+<button id="i" hidden>Install app</button>
+<script>
+const o=document.getElementById('o'),b=document.getElementById('i');
+const log=(c,t)=>{const l=document.createElement('li');l.className=c;l.textContent=t;o.append(l)};
+let ev=null;
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();ev=e;b.hidden=false});
+addEventListener('appinstalled',()=>log('ok','Installed'));
+b.onclick=async()=>{ev.prompt();log('in','Install choice: '+(await ev.userChoice).outcome);ev=null;b.hidden=true};
+(async()=>{
+  log(isSecureContext?'ok':'no','HTTPS / secure context: '+location.origin);
+  if(matchMedia('(display-mode: standalone)').matches)log('in','Already running as an installed app');
+  let m,mu;
+  try{
+    const l=document.querySelector('link[rel=manifest]');mu=new URL(l.href);
+    const r=await fetch(mu,{credentials:'include',cache:'reload'});
+    log(r.ok&&!r.redirected?'ok':'no','manifest.json → HTTP '+r.status+(r.redirected?' (redirected to '+r.url+')':'')+' · '+r.headers.get('content-type'));
+    m=await r.json();
+    log('in','name: '+m.name+' · display: '+m.display+' · id: '+m.id+' · start_url: '+m.start_url);
+  }catch(e){log('no','Manifest could not be loaded/parsed: '+e)}
+  if(m){
+    for(const i of m.icons||[]){
+      const u=new URL(i.src,mu);
+      await new Promise(res=>{const im=new Image();
+        im.onload=()=>{log(im.naturalWidth+'x'+im.naturalHeight===i.sizes?'ok':'no','icon '+i.src+' ('+i.purpose+') loads, real size '+im.naturalWidth+'x'+im.naturalHeight+', declared '+i.sizes);res()};
+        im.onerror=()=>{log('no','icon '+i.src+' FAILED to load → '+u.href);res()};im.src=u.href});
+    }
+    try{const s=new URL(m.start_url,mu),r=await fetch(s,{credentials:'include'});
+      log(r.ok?'ok':'no','start_url '+s.pathname+' → HTTP '+r.status+(r.redirected?' (redirected to '+new URL(r.url).pathname+')':''))}catch(e){log('no','start_url fetch failed: '+e)}
+  }
+  try{
+    if(!('serviceWorker' in navigator))throw 'not supported (needs HTTPS)';
+    let g=await navigator.serviceWorker.getRegistration('./');
+    if(!g)g=await navigator.serviceWorker.register('sw.js',{scope:'./'});
+    await navigator.serviceWorker.ready;
+    log('ok','Service worker active · scope '+g.scope);
+  }catch(e){log('no','Service worker problem: '+e)}
+  await new Promise(r=>setTimeout(r,3000));
+  log(ev?'ok':'no',ev?'Chrome is offering install – tap the button below':'Chrome did not offer install. If everything above is ✓, it is usually: already installed, Incognito window, or an old cached manifest (clear site data, reload)');
+})();
+</script>
+</body>
+</html>
