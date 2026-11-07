@@ -1,4 +1,4 @@
-const V = 'green-store-v1';
+const V = 'green-store-v2';
 const SHELL = [
   'index.html',
   'home.html',
@@ -6,7 +6,7 @@ const SHELL = [
   'orders.html',
   'offline.html',
   'manifest.json',
-  'icon.png',
+  'assets/icon.png',
   'icons/icon-192.png',
   'icons/icon-512.png',
   'icons/icon-maskable-512.png',
